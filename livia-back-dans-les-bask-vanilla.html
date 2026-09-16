@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>Livia back dans les bask</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Livia bask" />
+<meta name="theme-color" content="#020617" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ea580c'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#020617; --card:#0f172a; --border:#1e293b; --border2:#334155;
+    --text:#fafaf9; --muted:#a8a29e; --muted2:#78716c; --muted3:#57534e;
+    --orange:#ea580c; --orange-l:#f97316; --orange-soft:rgba(234,88,12,.12);
+    --amber:#fbbf24; --amber-soft:rgba(251,191,36,.12);
+    --emerald:#34d399; --red:#f87171;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);overscroll-behavior:none;}
+  body{
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
+    -webkit-tap-highlight-color:transparent;
+  }
+  button,input,textarea,select{font-family:inherit;color:inherit;}
+  button{cursor:pointer;}
+  input,textarea{background:var(--card);border:1px solid var(--border);border-radius:.6rem;padding:.65rem .75rem;color:var(--text);outline:none;width:100%;font-size:.95rem;}
+  input::placeholder,textarea::placeholder{color:var(--muted3);}
+  input:focus,textarea:focus{border-color:var(--orange);}
+
+  .app{max-width:28rem;margin:0 auto;min-height:100vh;position:relative;padding-bottom:6.5rem;}
+  .px{padding-left:1.25rem;padding-right:1.25rem;}
+  .pt{padding-top:2rem;}
+  .row{display:flex;align-items:center;}
+  .col{display:flex;flex-direction:column;}
+  .gap-1{gap:.4rem;} .gap-2{gap:.6rem;} .gap-3{gap:.85rem;}
+  .flex-1{flex:1;min-width:0;}
+  .between{justify-content:space-between;}
+  .center{justify-content:center;}
+  .wrap{flex-wrap:wrap;}
+  .mb-1{margin-bottom:.35rem;} .mb-2{margin-bottom:.6rem;} .mb-3{margin-bottom:.9rem;}
+  .mb-4{margin-bottom:1.1rem;} .mb-5{margin-bottom:1.4rem;} .mb-6{margin-bottom:1.7rem;} .mb-8{margin-bottom:2.2rem;}
+  .mt-1{margin-top:.35rem;} .mt-3{margin-top:.9rem;}
+  .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .italic{font-style:italic;}
+
+  .wordmark-tag{color:var(--orange-l);font-weight:700;font-size:.9rem;letter-spacing:.02em;}
+  .wordmark{font-weight:900;font-style:italic;font-size:2.2rem;letter-spacing:-0.02em;line-height:1;margin-top:-.15rem;}
+  h2.title{font-size:1.5rem;font-weight:900;line-height:1.2;margin:0 0 1.2rem;}
+  h2.title-lg{font-size:1.9rem;font-weight:900;line-height:1.15;margin:0 0 .3rem;}
+
+  .icon-btn{background:none;border:none;padding:.25rem;color:var(--muted3);}
+  .icon-btn.soft{color:var(--muted2);}
+
+  .stat-box{display:flex;border:1px solid var(--border);border-radius:.7rem;overflow:hidden;margin-bottom:1.5rem;}
+  .stat-cell{flex:1;padding:1rem;}
+  .stat-cell + .stat-cell{border-left:1px solid var(--border);}
+  .stat-num{font-size:1.9rem;font-weight:900;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:.75rem;color:var(--muted);margin-top:.1rem;}
+
+  .btn{border-radius:999px;font-weight:700;text-align:center;border:1px solid transparent;transition:transform .1s;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--orange);color:#fff;padding:1.15rem;font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;}
+  .btn-primary:hover{background:var(--orange-l);}
+  .btn-primary:disabled{background:var(--border);color:var(--muted3);}
+  .btn-secondary{background:transparent;border-color:var(--border2);padding:.85rem;font-size:.95rem;display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;}
+  .btn-secondary:hover{border-color:var(--orange);}
+  .btn-ghost{background:none;border:none;color:var(--muted2);font-size:.9rem;width:100%;text-align:center;padding:.5rem;}
+  .btn-sm{border-radius:999px;padding:.5rem .9rem;font-size:.85rem;font-weight:700;background:var(--card);color:var(--muted);border:none;white-space:nowrap;}
+  .btn-sm.active{background:var(--text);color:var(--bg);}
+  .btn-pill-small{border-radius:999px;padding:.4rem .5rem;font-size:.72rem;font-weight:700;background:var(--card);color:var(--muted);border:none;flex:1;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:.6rem;padding:.85rem;}
+  .card-l{border-left:2px solid var(--border);}
+
+  .diff-detente{--dc:var(--emerald);} .diff-sortie{--dc:var(--amber);} .diff-challenge{--dc:var(--red);}
+  .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:.3rem .7rem;border-radius:999px;background:var(--dc);color:#020617;margin-bottom:.6rem;}
+  .border-diff{border-left:2px solid var(--dc);}
+
+  .option-card{width:100%;text-align:left;padding:.95rem;border-radius:.7rem;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;}
+  .option-card:hover{border-color:var(--orange);}
+  .option-emoji{font-size:1.4rem;}
+
+  .dur-card{padding:1.2rem;border-radius:.7rem;border:1px solid var(--border);background:var(--card);text-align:center;font-weight:700;font-size:1.05rem;}
+  .dur-card:hover{border-color:var(--orange);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+
+  .step-dots{display:flex;gap:.4rem;}
+  .dot{height:.35rem;width:2rem;border-radius:999px;background:var(--border);}
+  .dot.on{background:var(--orange);}
+
+  .num-circle{width:1.5rem;height:1.5rem;border-radius:999px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;margin-top:.1rem;}
+
+  .field label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.4rem;}
+  .field{margin-bottom:1.1rem;}
+  .btn-toggle-row{display:flex;gap:.5rem;}
+  .btn-toggle{flex:1;padding:.65rem;border-radius:.6rem;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.85rem;}
+  .btn-toggle.active{border-color:var(--orange);background:var(--orange-soft);color:var(--orange-l);}
+  .emoji-toggle{flex:1;font-size:1.4rem;padding:.6rem 0;border-radius:.6rem;border:1px solid var(--border);background:transparent;}
+  .emoji-toggle.active{border-color:var(--orange);background:var(--orange-soft);}
+
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;border-top:1px solid var(--border);background:rgba(2,6,23,.95);backdrop-filter:blur(8px);}
+  .bottom-nav-inner{max-width:28rem;margin:0 auto;display:flex;}
+  .nav-item{flex:1;background:none;border:none;padding:.75rem 0;display:flex;flex-direction:column;align-items:center;gap:.25rem;color:var(--muted3);}
+  .nav-item.active{color:var(--orange-l);}
+  .nav-item span.lbl{font-size:.68rem;}
+
+  .quote{font-style:italic;color:var(--muted2);border-left:2px solid var(--orange);padding-left:.8rem;margin:0 0 1.5rem;}
+
+  .coach-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;overflow-x:auto;padding-bottom:2px;}
+  .diff-filter{flex:1;padding:.4rem 0;border-radius:999px;font-size:.72rem;font-weight:700;background:var(--card);color:var(--muted);border:none;}
+  .diff-filter.active{background:var(--dc);color:#020617;}
+
+  .empty-note{color:var(--muted);}
+  a{color:inherit;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+// ---------------------------------------------------------------------------
+// ICONES (emoji, zéro dépendance)
+// ---------------------------------------------------------------------------
+const EMO = {
+  home: "🏠", history: "⏱️", trophy: "🏆", lock: "🔒", key: "🔑",
+  share: "📤", check: "✅", back: "←", plus: "➕", trash: "🗑️",
+  edit: "✏️", close: "✖️", star: "⭐", save: "💾", party: "🎉",
+  dumbbell: "🏋️‍♀️", timer: "⏱️", sparkles: "✨", flame: "🔥", refresh: "🔄",
+};
+
+// ---------------------------------------------------------------------------
+// DONNÉES DE BASE
+// ---------------------------------------------------------------------------
+
+const ACTS = {
+  course: { label: "Course à pied", icon: "🏃" },
+  muscu: { label: "Salle de muscu", icon: "🏋️" },
+  padel: { label: "Padel", icon: "🎾" },
+  pilates: { label: "Pilates", icon: "🤸" },
+  natation: { label: "Natation", icon: "🏊" },
+  ski: { label: "Ski", icon: "⛷️" },
+  yoga: { label: "Yoga", icon: "🧘‍♀️" },
+};
+
+const DIFFS = {
+  detente: { label: "Détente", cls: "diff-detente" },
+  sortie: { label: "Sortie de zone de confort", cls: "diff-sortie" },
+  challenge: { label: "Challengeante", cls: "diff-challenge" },
+};
+
+const DIFF_ORDER = ["detente", "sortie", "challenge"];
+
+const DEFAULT_LIBRARY = {
+  course: {
+    detente: [
+      { id: "c-de-1", titre: "Footing cocooning", duree: 25, points: 10, etapes: ["Échauffement marche rapide — 5 min", "Footing très léger allure conversation — 15 min", "Retour au calme + étirements — 5 min"] },
+      { id: "c-de-2", titre: "Footing plaisir", duree: 30, points: 10, etapes: ["Échauffement — 5 min", "Footing léger 20 min avec 2 accélérations de 20 sec", "Retour au calme + étirements — 5 min"] },
+      { id: "c-de-3", titre: "Footing nature", duree: 35, points: 12, etapes: ["Échauffement — 5 min", "Footing 25 min sur terrain varié (parc, chemin)", "Retour au calme + étirements — 5 min"] },
+    ],
+    sortie: [
+      { id: "c-so-1", titre: "Fractionné doux", duree: 30, points: 20, etapes: ["Échauffement — 8 min", "6 x (1 min rapide / 1 min récup marchée)", "Retour au calme + étirements — 5 min"] },
+      { id: "c-so-2", titre: "Tempo run", duree: 35, points: 22, etapes: ["Échauffement — 8 min", "20 min allure soutenue mais tenable", "Retour au calme — 7 min"] },
+      { id: "c-so-3", titre: "Fractionné pyramidal", duree: 40, points: 25, etapes: ["Échauffement — 8 min", "1-2-3-2-1 min rapide, récup égale au temps d'effort", "Retour au calme — 6 min"] },
+    ],
+    challenge: [
+      { id: "c-ch-1", titre: "Fractionné intense", duree: 45, points: 32, etapes: ["Échauffement — 10 min", "8 x 400 m rapide, récup 90 sec", "Retour au calme + étirements — 8 min"] },
+      { id: "c-ch-2", titre: "Sortie longue", duree: 55, points: 35, etapes: ["Échauffement — 8 min", "40 min endurance fondamentale, allure régulière", "Retour au calme — 7 min"] },
+      { id: "c-ch-3", titre: "Fractionné VMA", duree: 45, points: 38, etapes: ["Échauffement — 10 min", "10 x 300 m très rapide, récup 1 min", "Retour au calme + étirements — 8 min"] },
+    ],
+  },
+  muscu: {
+    detente: [
+      { id: "m-de-1", titre: "Full body léger", duree: 25, points: 10, etapes: ["Échauffement articulaire — 5 min", "Circuit poids du corps : squats, pompes genoux, gainage — 2 tours", "Étirements — 5 min"] },
+      { id: "m-de-2", titre: "Mobilité & renfo doux", duree: 30, points: 10, etapes: ["Échauffement — 5 min", "3 x 12 fentes, 3 x 15 abdos, 3 x 10 pompes", "Étirements complets — 5 min"] },
+      { id: "m-de-3", titre: "Renfo maison", duree: 30, points: 12, etapes: ["Échauffement — 5 min", "Circuit : squats, gainage, dips banc, mollets — 3 tours", "Étirements — 5 min"] },
+    ],
+    sortie: [
+      { id: "m-so-1", titre: "Push / Pull modéré", duree: 40, points: 20, etapes: ["Échauffement — 8 min", "Développé, tirage, épaules — 3 x 10-12 reps", "Gainage 3 x 30 sec"] },
+      { id: "m-so-2", titre: "Leg day modéré", duree: 40, points: 22, etapes: ["Échauffement — 8 min", "Squat, presse, fentes — 3 x 12", "Mollets + gainage"] },
+      { id: "m-so-3", titre: "Full body charges moyennes", duree: 45, points: 25, etapes: ["Échauffement — 8 min", "Squat, développé couché, rowing — 4 x 10", "Gainage + étirements"] },
+    ],
+    challenge: [
+      { id: "m-ch-1", titre: "Full body intense", duree: 50, points: 32, etapes: ["Échauffement — 10 min", "Squat, soulevé de terre, développé — 4 x 8 lourd", "Finisher abdos 3 x max"] },
+      { id: "m-ch-2", titre: "Leg day intense", duree: 50, points: 35, etapes: ["Échauffement — 10 min", "Squat lourd 5 x 6, presse 4 x 10, fentes bulgares 3 x 10", "Gainage intense"] },
+      { id: "m-ch-3", titre: "Push pull intense", duree: 55, points: 38, etapes: ["Échauffement — 10 min", "Développé, tirage, épaules lourd — 5 x 6-8", "Finisher gainage + abdos"] },
+    ],
+  },
+  padel: {
+    detente: [
+      { id: "p-de-1", titre: "Padel entre amis", duree: 30, points: 10, etapes: ["Échauffement — 10 min", "Échanges tranquilles, petits points sans pression — 20 min", "Retour au calme — 5 min"] },
+      { id: "p-de-2", titre: "Padel décontracté", duree: 35, points: 12, etapes: ["Échauffement — 10 min", "Petit match détente — 20 min", "Retour au calme — 5 min"] },
+    ],
+    sortie: [
+      { id: "p-so-1", titre: "Padel découverte", duree: 45, points: 20, etapes: ["Échauffement — 10 min", "Match ou échanges rythme soutenu — 30 min", "Retour au calme — 5 min"] },
+      { id: "p-so-2", titre: "Padel rythmé", duree: 45, points: 22, etapes: ["Échauffement — 10 min", "Match complet, rythme soutenu — 30 min", "Retour au calme — 5 min"] },
+    ],
+    challenge: [
+      { id: "p-ch-1", titre: "Padel compétitif", duree: 60, points: 32, etapes: ["Échauffement — 10 min", "Match intense — 45 min", "Retour au calme — 5 min"] },
+      { id: "p-ch-2", titre: "Tournoi padel", duree: 55, points: 35, etapes: ["Échauffement — 10 min", "Plusieurs sets enchaînés à fond — 40 min", "Retour au calme — 5 min"] },
+    ],
+  },
+  pilates: {
+    detente: [
+      { id: "pi-de-1", titre: "Pilates doux", duree: 30, points: 10, etapes: ["Respiration & mobilisation — 5 min", "Enchaînement pilates niveau doux — 20 min", "Étirements — 5 min"] },
+      { id: "pi-de-2", titre: "Pilates détente", duree: 30, points: 10, etapes: ["Respiration & ancrage — 5 min", "Postures douces et gainage léger — 20 min", "Étirements — 5 min"] },
+    ],
+    sortie: [
+      { id: "pi-so-1", titre: "Pilates dynamique", duree: 40, points: 22, etapes: ["Échauffement — 5 min", "Enchaînement pilates intensité modérée — 30 min", "Étirements — 5 min"] },
+      { id: "pi-so-2", titre: "Pilates renforcement", duree: 40, points: 22, etapes: ["Échauffement — 5 min", "Circuit gainage & renforcement profond — 30 min", "Étirements — 5 min"] },
+    ],
+    challenge: [
+      { id: "pi-ch-1", titre: "Pilates intensif", duree: 45, points: 32, etapes: ["Échauffement — 8 min", "Enchaînement complet rythme soutenu — 32 min", "Étirements — 5 min"] },
+      { id: "pi-ch-2", titre: "Pilates power", duree: 45, points: 35, etapes: ["Échauffement — 8 min", "Circuit intense gainage + renforcement — 32 min", "Étirements — 5 min"] },
+    ],
+  },
+  natation: {
+    detente: [
+      { id: "n-de-1", titre: "Nage cocooning", duree: 25, points: 10, etapes: ["Échauffement 200 m nage libre souple", "400 m allure tranquille en variant les nages", "Retour au calme 100 m dos crawlé"] },
+      { id: "n-de-2", titre: "Nage détente", duree: 30, points: 12, etapes: ["Échauffement 200 m", "500 m allure confortable", "Retour au calme 100 m"] },
+    ],
+    sortie: [
+      { id: "n-so-1", titre: "Nage progressive", duree: 35, points: 20, etapes: ["Échauffement 300 m", "6 x 50 m allure soutenue, récup 20 sec", "Retour au calme 200 m"] },
+      { id: "n-so-2", titre: "Nage tempo", duree: 40, points: 22, etapes: ["Échauffement 300 m", "800 m allure soutenue continue", "Retour au calme 200 m"] },
+    ],
+    challenge: [
+      { id: "n-ch-1", titre: "Séance fractionnée piscine", duree: 45, points: 32, etapes: ["Échauffement 300 m", "10 x 100 m rythme soutenu, récup 30 sec", "Retour au calme 200 m"] },
+      { id: "n-ch-2", titre: "Nage longue distance", duree: 50, points: 35, etapes: ["Échauffement 300 m", "1500 m allure régulière et soutenue", "Retour au calme 200 m"] },
+    ],
+  },
+  ski: {
+    detente: [
+      { id: "s-de-1", titre: "Ski tranquille", duree: 60, points: 12, etapes: ["Échauffement sur piste bleue", "Ski cool sur pistes faciles — 45 min", "Pause détente"] },
+      { id: "s-de-2", titre: "Ski balade", duree: 90, points: 15, etapes: ["Échauffement sur piste facile", "Balade sur pistes variées, rythme cool — 70 min", "Pause détente"] },
+    ],
+    sortie: [
+      { id: "s-so-1", titre: "Ski rythmé", duree: 90, points: 22, etapes: ["Échauffement — 15 min", "Enchaînement de pistes rouges, rythme soutenu — 60 min", "Pause"] },
+      { id: "s-so-2", titre: "Ski itinérance modérée", duree: 120, points: 25, etapes: ["Échauffement — 15 min", "Parcours varié, plusieurs pistes rouges — 90 min", "Pause"] },
+    ],
+    challenge: [
+      { id: "s-ch-1", titre: "Ski intensif", duree: 120, points: 35, etapes: ["Échauffement — 15 min", "Enchaînement de pistes rouges/noires, rythme soutenu — 90 min", "Focus technique en fin de session"] },
+      { id: "s-ch-2", titre: "Grande journée ski", duree: 180, points: 40, etapes: ["Échauffement — 15 min", "Journée complète, pistes variées et exigeantes — 150 min", "Retour au calme"] },
+    ],
+  },
+  yoga: {
+    detente: [
+      { id: "y-de-1", titre: "Yoga doux", duree: 25, points: 10, etapes: ["Respiration & ancrage — 5 min", "Postures douces enchaînées — 15 min", "Relaxation finale — 5 min"] },
+      { id: "y-de-2", titre: "Yoga détente", duree: 30, points: 10, etapes: ["Respiration — 5 min", "Postures douces et étirements — 20 min", "Relaxation finale — 5 min"] },
+    ],
+    sortie: [
+      { id: "y-so-1", titre: "Yoga dynamique", duree: 35, points: 20, etapes: ["Salutations au soleil — 10 min", "Enchaînement vinyasa modéré — 20 min", "Relaxation — 5 min"] },
+      { id: "y-so-2", titre: "Yoga vinyasa", duree: 40, points: 22, etapes: ["Échauffement — 8 min", "Enchaînement vinyasa soutenu — 27 min", "Relaxation — 5 min"] },
+    ],
+    challenge: [
+      { id: "y-ch-1", titre: "Yoga power", duree: 45, points: 30, etapes: ["Échauffement dynamique — 10 min", "Vinyasa intense avec postures d'équilibre — 30 min", "Relaxation — 5 min"] },
+      { id: "y-ch-2", titre: "Yoga intensif", duree: 45, points: 32, etapes: ["Échauffement dynamique — 10 min", "Enchaînement puissant, tenues longues — 30 min", "Relaxation — 5 min"] },
+    ],
+  },
+};
+
+const DEFAULT_REWARDS = [
+  { id: "r1", seuil: 50, titre: "Un petit plaisir sucré offert", indice: "Ça se mange 🍫" },
+  { id: "r2", seuil: 120, titre: "Soirée resto au choix de Livia", indice: "Ça se réserve à table 🍽️" },
+  { id: "r3", seuil: 220, titre: "Nouvelle tenue de sport", indice: "Ça se porte au sport 👟" },
+  { id: "r4", seuil: 350, titre: "Weekend surprise à deux", indice: "Ça se prépare en valise 🧳" },
+  { id: "r5", seuil: 500, titre: "Cadeau mystère XXL", indice: "Ça se garde secret jusqu'au bout 🎁" },
+];
+
+const DEFAULT_COACH_PIN = "0000";
+
+const QUOTES = [
+  "Le canapé sera toujours là. Cette version de toi qui y va, un peu moins souvent.",
+  "T'as pas besoin d'avoir envie. T'as juste besoin de commencer.",
+  "Chaque séance est un dépôt sur un compte que personne ne peut te retirer.",
+  "Le pire moment, c'est avant. Après, t'es toujours content.",
+  "Personne ne regrette une séance faite. Beaucoup regrettent celle qu'ils ont sautée.",
+  "T'es pas obligée d'être rapide. Juste d'être là.",
+  "Ton futur toi te dit déjà merci.",
+  "Un pas après l'autre, un point après l'autre.",
+  "La motivation te lance. La discipline te fait finir.",
+  "Aujourd'hui c'est pas pour être parfaite, c'est pour être présente.",
+  "Ce que tu fais aujourd'hui te rendra plus forte demain.",
+  "Respire, avance, et fais-toi fière.",
+];
+
+const DEFAULT_MOOD_BANK = [
+  { id: "q1", question: "Si aujourd'hui t'étais une météo, tu serais plutôt…", options: [
+    { id: "q1a", emoji: "☀️", text: "Grand soleil, prête à tout cramer", energie: 2, favor: null },
+    { id: "q1b", emoji: "🌤️", text: "Petit nuage sympa, ça va", energie: 1, favor: null },
+    { id: "q1c", emoji: "🌧️", text: "Petite pluie, motivation en option", energie: 0, favor: null },
+    { id: "q1d", emoji: "🌪️", text: "Tempête, besoin de tout déverser", energie: 2, favor: null },
+  ]},
+  { id: "q2", question: "Et si ta séance était une musique, ce serait…", options: [
+    { id: "q2a", emoji: "🎵", text: "Une ballade tranquille", energie: 0, favor: "yoga" },
+    { id: "q2b", emoji: "🎧", text: "Un tube qui donne envie de courir", energie: 1, favor: "course" },
+    { id: "q2c", emoji: "🥁", text: "Un remix qui tape fort", energie: 2, favor: "muscu" },
+    { id: "q2d", emoji: "🎉", text: "Une chanson de teuf entre potes", energie: 1, favor: "padel" },
+  ]},
+  { id: "q3", question: "Ton énergie du moment, c'est plutôt…", options: [
+    { id: "q3a", emoji: "🔋", text: "Batterie à fond", energie: 2, favor: null },
+    { id: "q3b", emoji: "🙂", text: "Ça va, correct", energie: 1, favor: null },
+    { id: "q3c", emoji: "🪫", text: "Batterie faible mais motivée", energie: 0, favor: "pilates" },
+    { id: "q3d", emoji: "😤", text: "Besoin de tout lâcher", energie: 2, favor: null },
+  ]},
+  { id: "q4", question: "Là tout de suite, t'as surtout envie de…", options: [
+    { id: "q4a", emoji: "🏃‍♀️", text: "Te défouler en solo", energie: 1, favor: "course" },
+    { id: "q4b", emoji: "🏋️‍♀️", text: "Pousser un peu de fonte", energie: 2, favor: "muscu" },
+    { id: "q4c", emoji: "🎾", text: "Voir du monde et rigoler", energie: 1, favor: "padel" },
+    { id: "q4d", emoji: "🧘‍♀️", text: "Bouger doucement, sans pression", energie: 0, favor: "yoga" },
+  ]},
+  { id: "q5", question: "Si ta séance avait une couleur aujourd'hui, ce serait…", options: [
+    { id: "q5a", emoji: "🔴", text: "Rouge, à fond", energie: 2, favor: null },
+    { id: "q5b", emoji: "🟠", text: "Orange, ça tourne bien", energie: 1, favor: null },
+    { id: "q5c", emoji: "🟡", text: "Jaune, tranquille", energie: 0, favor: null },
+    { id: "q5d", emoji: "🟣", text: "Violet, envie de fun", energie: 1, favor: "padel" },
+  ]},
+  { id: "q6", question: "T'as la tête plutôt…", options: [
+    { id: "q6a", emoji: "🎯", text: "Prête à me challenger", energie: 2, favor: "course" },
+    { id: "q6b", emoji: "🧠", text: "Focus et déterminée", energie: 2, favor: "muscu" },
+    { id: "q6c", emoji: "😌", text: "Zen, présente", energie: 0, favor: "yoga" },
+    { id: "q6d", emoji: "🤪", text: "Envie de rire un coup", energie: 1, favor: "padel" },
+  ]},
+];
+
+const DURATIONS = [
+  { key: "court", label: "20 - 30 min", minutes: 25 },
+  { key: "moyen", label: "30 - 45 min", minutes: 38 },
+  { key: "long", label: "45 - 60 min", minutes: 50 },
+  { key: "xl", label: "60 min +", minutes: 65 },
+];
+
+const PERF_FIELDS = {
+  course: [
+    { key: "distance", label: "Distance parcourue", type: "text", placeholder: "ex : 5,2 km" },
+    { key: "temps", label: "Temps total", type: "text", placeholder: "ex : 28 min" },
+    { key: "allure", label: "Ressenti sur l'allure", type: "select", options: ["Facile", "Correct", "Difficile"] },
+  ],
+  muscu: [
+    { key: "exercices", label: "Exercices & charges", type: "textarea", placeholder: "ex : Squat 40kg x10, Développé couché 30kg x8..." },
+    { key: "series", label: "Nombre de séries total", type: "text", placeholder: "ex : 14" },
+  ],
+  autre: [
+    { key: "resultat", label: "Résultat / ce que t'as fait", type: "text", placeholder: "ex : Victoire 6-4, ou séance complète" },
+    { key: "partenaire", label: "Avec qui ?", type: "text", placeholder: "ex : Solo, ou avec Marine" },
+  ],
+};
+
+const RESSENTI_EMOJIS = ["😩", "😕", "🙂", "😄", "🔥"];
+
+// ---------------------------------------------------------------------------
+// UTILITAIRES
+// ---------------------------------------------------------------------------
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function esc(str) {
+  return String(str == null ? "" : str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function weightedPick(weights) {
+  const entries = Object.entries(weights).filter(([, w]) => w > 0);
+  const total = entries.reduce((s, [, w]) => s + w, 0);
+  let r = Math.random() * total;
+  for (const [key, w] of entries) { if (r < w) return key; r -= w; }
+  return entries[0] && entries[0][0];
+}
+function pickActivite(q2) {
+  const weights = { course: 5, muscu: 3, padel: 1.2, pilates: 1.2, natation: 1, yoga: 1, ski: 0.4 };
+  if (q2 && q2.favor) weights[q2.favor] += 2.5;
+  return weightedPick(weights);
+}
+function pickDifficulte(history, energie) {
+  const excluded = new Set();
+  if (history.length >= 1) excluded.add(history[history.length - 1].difficulte);
+  if (history.length >= 2) excluded.add(history[history.length - 2].difficulte);
+  let candidates = DIFF_ORDER.filter((d) => !excluded.has(d));
+  if (candidates.length === 0) candidates = DIFF_ORDER;
+  if (candidates.length === 1) return candidates[0];
+  const weights = {};
+  if (candidates.includes("detente")) weights.detente = Math.max(0.5, 3 - energie);
+  if (candidates.includes("sortie")) weights.sortie = 2;
+  if (candidates.includes("challenge")) weights.challenge = Math.max(0.5, energie);
+  return weightedPick(weights);
+}
+function pickSeance(library, activite, difficulte, history) {
+  const list = (library[activite] && library[activite][difficulte]) || [];
+  if (list.length === 0) return null;
+  const count = history.filter((h) => h.activite === activite && h.difficulte === difficulte).length;
+  const idx = Math.min(count, list.length - 1);
+  return list[idx];
+}
+function calcPoints(seance, minutes) {
+  const factor = minutes / (seance.duree || minutes);
+  return Math.max(5, Math.round((seance.points * factor) / 5) * 5);
+}
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+}
+function pickRandomQuestions(bank, n) {
+  const pool = [...bank];
+  const picked = [];
+  while (picked.length < n && pool.length) {
+    const idx = Math.floor(Math.random() * pool.length);
+    picked.push(pool.splice(idx, 1)[0]);
+  }
+  while (picked.length < n && bank.length) picked.push(bank[0]);
+  return picked;
+}
+
+function loadLocal(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
+}
+function saveLocal(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { console.error("Erreur de sauvegarde", key, e); }
+}
+function setPath(obj, path, value) {
+  const parts = path.split(".");
+  let o = obj;
+  for (let i = 0; i < parts.length - 1; i++) o = o[parts[i]];
+  o[parts[parts.length - 1]] = value;
+}
+
+const CONFIG_PREFIX = "LIVIA-CONFIG:";
+function encodeConfig(obj) { return CONFIG_PREFIX + btoa(unescape(encodeURIComponent(JSON.stringify(obj)))); }
+function decodeConfig(str) {
+  const clean = str.trim();
+  const payload = clean.startsWith(CONFIG_PREFIX) ? clean.slice(CONFIG_PREFIX.length) : clean;
+  return JSON.parse(decodeURIComponent(escape(atob(payload))));
+}
+
+// ---------------------------------------------------------------------------
+// ÉTAT GLOBAL
+// ---------------------------------------------------------------------------
+
+const state = {
+  view: "home",
+  library: loadLocal("library", DEFAULT_LIBRARY),
+  rewards: loadLocal("rewards", DEFAULT_REWARDS),
+  moodBank: loadLocal("moodQuestions", DEFAULT_MOOD_BANK),
+  coachPin: loadLocal("coachPin", DEFAULT_COACH_PIN),
+  history: loadLocal("history", []),
+
+  moodAnswers: { q1: null, q2: null },
+  activeQuestions: [],
+  flowMode: "mood",
+  directActivite: null,
+  session: null,
+  expandedHistoryId: null,
+  pinError: false,
+
+  coachTab: "seances",
+  coachActivite: "course",
+  coachDifficulte: "detente",
+  editingSeanceId: null,
+  seanceDraft: null,
+  editingMoodQId: null,
+
+  performDraft: null,
+
+  importMsg: "",
+
+  newReward: { titre: "", indice: "", seuil: 100 },
+  addingReward: false,
+
+  exportCode: "",
+  exportCopied: false,
+};
+
+function totalPoints() { return state.history.reduce((s, h) => s + (h.points || 0), 0); }
+function totalSeances() { return state.history.length; }
+function nextReward() {
+  const tp = totalPoints();
+  return [...state.rewards].sort((a, b) => a.seuil - b.seuil).find((r) => r.seuil > tp);
+}
+
+function setView(v) { state.view = v; render(); }
+
+// ---------------------------------------------------------------------------
+// ACTIONS
+// ---------------------------------------------------------------------------
+
+function startFlow() {
+  state.moodAnswers = { q1: null, q2: null };
+  state.session = null;
+  state.flowMode = "mood";
+  state.activeQuestions = pickRandomQuestions(state.moodBank, 2);
+  setView("mood1");
+}
+function startDirectFlow() {
+  state.session = null;
+  state.flowMode = "direct";
+  state.directActivite = null;
+  setView("choose-activite");
+}
+function chooseActiviteDirect(key) {
+  state.directActivite = key;
+  setView("duration");
+}
+function answerMood(step, opt) {
+  if (step === 1) { state.moodAnswers.q1 = opt; setView("mood2"); }
+  else { state.moodAnswers.q2 = opt; setView("duration"); }
+}
+function chooseDuration(key) {
+  const dur = DURATIONS.find((d) => d.key === key);
+  let energie, activite;
+  if (state.flowMode === "direct") {
+    activite = state.directActivite;
+    energie = 1;
+  } else {
+    energie = ((state.moodAnswers.q1 && state.moodAnswers.q1.energie) || 0) + ((state.moodAnswers.q2 && state.moodAnswers.q2.energie) || 0);
+    activite = pickActivite(state.moodAnswers.q2);
+  }
+  const difficulte = pickDifficulte(state.history, energie);
+  const seance = pickSeance(state.library, activite, difficulte, state.history);
+  const points = seance ? calcPoints(seance, dur.minutes) : 0;
+  const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  state.session = { activite, difficulte, seance, duration: dur, points, quote };
+  setView("result");
+}
+function shareProgramme() {
+  const s = state.session;
+  if (!s || !s.seance) return;
+  const lines = [
+    "🏃 Programme du jour — Livia back dans les bask", "",
+    ACTS[s.activite].label + " · " + DIFFS[s.difficulte].label,
+    s.seance.titre + " (~" + s.seance.duree + " min · +" + s.points + " pts)", "",
+    ...s.seance.etapes.map((e, i) => (i + 1) + ". " + e),
+  ];
+  window.open("https://wa.me/?text=" + encodeURIComponent(lines.join("\n")), "_blank");
+}
+function goPerform() {
+  state.performDraft = { fields: {}, ressenti: 0, commentaire: "" };
+  setView("perform");
+}
+function setPerformSelect(field, value) { state.performDraft.fields[field] = value; render(); }
+function setRessenti(v) { state.performDraft.ressenti = v; render(); }
+function submitPerformance() {
+  const s = state.session;
+  const perf = state.performDraft;
+  document.querySelectorAll("[data-bind='perform']").forEach((el) => { setPath(perf, el.dataset.field, el.value); });
+  if (perf.ressenti === 0) { render(); return; }
+  const entry = {
+    id: uid(), date: new Date().toISOString(), activite: s.activite, difficulte: s.difficulte,
+    seanceId: s.seance.id, seanceTitre: s.seance.titre, dureeChoisie: s.duration.label,
+    points: s.points, performance: perf.fields, ressenti: perf.ressenti, commentaire: perf.commentaire,
+  };
+  const tpBefore = totalPoints();
+  state.history.push(entry);
+  saveLocal("history", state.history);
+
+  const lines = [
+    "✅ Séance faite — Livia back dans les bask", "",
+    ACTS[s.activite].label + " · " + s.seance.titre,
+    "+" + s.points + " pts (total : " + (tpBefore + s.points) + " pts)", "",
+    ...Object.entries(perf.fields).filter(([, v]) => v).map(([k, v]) => {
+      const field = PERF_FIELDS[s.activite].find((f) => f.key === k);
+      return (field ? field.label : k) + " : " + v;
+    }),
+    "Ressenti : " + (RESSENTI_EMOJIS[perf.ressenti - 1] || ""),
+    perf.commentaire ? '"' + perf.commentaire + '"' : null,
+  ].filter(Boolean);
+  window.open("https://wa.me/?text=" + encodeURIComponent(lines.join("\n")), "_blank");
+  setView("done");
+}
+function backHome() { state.session = null; setView("home"); }
+
+function tryUnlockCoach() {
+  const val = document.getElementById("pin-input-el").value;
+  if (val === state.coachPin) { state.pinError = false; setView("coach"); }
+  else { state.pinError = true; render(); }
+}
+function applyImport() {
+  const text = document.getElementById("import-textarea").value;
+  try {
+    const cfg = decodeConfig(text);
+    if (cfg.library) { state.library = cfg.library; saveLocal("library", state.library); }
+    if (cfg.rewards) { state.rewards = cfg.rewards; saveLocal("rewards", state.rewards); }
+    if (cfg.moodBank) { state.moodBank = cfg.moodBank; saveLocal("moodQuestions", state.moodBank); }
+    state.importMsg = "ok";
+  } catch (e) { state.importMsg = "erreur"; }
+  render();
+}
+
+function toggleHistory(id) { state.expandedHistoryId = state.expandedHistoryId === id ? null : id; render(); }
+
+function setCoachTab(tab) { state.coachTab = tab; state.editingSeanceId = null; state.editingMoodQId = null; render(); }
+function setCoachActivite(a) { state.coachActivite = a; render(); }
+function setCoachDifficulte(d) { state.coachDifficulte = d; render(); }
+
+function openSeanceEditor(id) {
+  if (id === "new") { state.seanceDraft = { titre: "", duree: 30, points: 15, etapesText: "" }; }
+  else {
+    const s = state.library[state.coachActivite][state.coachDifficulte].find((x) => x.id === id);
+    state.seanceDraft = { titre: s.titre, duree: s.duree, points: s.points, etapesText: s.etapes.join("\n") };
+  }
+  state.editingSeanceId = id;
+  render();
+}
+function cancelSeanceEditor() { state.editingSeanceId = null; state.seanceDraft = null; render(); }
+function saveSeanceEditor() {
+  document.querySelectorAll("[data-bind='draft']").forEach((el) => { state.seanceDraft[el.dataset.field] = el.value; });
+  const d = state.seanceDraft;
+  if (!d.titre.trim()) return;
+  const etapes = d.etapesText.split("\n").map((l) => l.trim()).filter(Boolean);
+  const entry = { titre: d.titre, duree: Number(d.duree), points: Number(d.points), etapes };
+  const list = state.library[state.coachActivite][state.coachDifficulte];
+  if (state.editingSeanceId === "new") {
+    list.push({ ...entry, id: uid() });
+  } else {
+    const idx = list.findIndex((x) => x.id === state.editingSeanceId);
+    list[idx] = { ...list[idx], ...entry };
+  }
+  saveLocal("library", state.library);
+  state.editingSeanceId = null; state.seanceDraft = null;
+  render();
+}
+function deleteSeance(id) {
+  const list = state.library[state.coachActivite][state.coachDifficulte];
+  state.library[state.coachActivite][state.coachDifficulte] = list.filter((x) => x.id !== id);
+  saveLocal("library", state.library);
+  render();
+}
+
+function updateRewardField(id, field, value) {
+  const r = state.rewards.find((x) => x.id === id);
+  if (!r) return;
+  r[field] = field === "seuil" ? Number(value) : value;
+  saveLocal("rewards", state.rewards);
+}
+function removeReward(id) { state.rewards = state.rewards.filter((r) => r.id !== id); saveLocal("rewards", state.rewards); render(); }
+function toggleAddReward() { state.addingReward = !state.addingReward; render(); }
+function addReward() {
+  document.querySelectorAll("[data-bind='newreward']").forEach((el) => {
+    state.newReward[el.dataset.field] = el.dataset.field === "seuil" ? Number(el.value) : el.value;
+  });
+  if (!state.newReward.titre.trim()) return;
+  state.rewards.push({ id: uid(), titre: state.newReward.titre, indice: state.newReward.indice, seuil: Number(state.newReward.seuil) });
+  saveLocal("rewards", state.rewards);
+  state.newReward = { titre: "", indice: "", seuil: 100 };
+  state.addingReward = false;
+  render();
+}
+
+function openMoodEditor(id) { state.editingMoodQId = id; render(); }
+function backMoodBank() { state.editingMoodQId = null; render(); }
+function addMoodQuestion() {
+  const q = { id: uid(), question: "Nouvelle question", options: [
+    { id: uid(), emoji: "✨", text: "Option 1", energie: 0, favor: null },
+    { id: uid(), emoji: "✨", text: "Option 2", energie: 1, favor: null },
+  ]};
+  state.moodBank.push(q);
+  saveLocal("moodQuestions", state.moodBank);
+  state.editingMoodQId = q.id;
+  render();
+}
+function removeMoodQuestion(id) {
+  if (state.moodBank.length <= 2) return;
+  state.moodBank = state.moodBank.filter((q) => q.id !== id);
+  saveLocal("moodQuestions", state.moodBank);
+  render();
+}
+function updateMoodQuestionField(qid, field, value) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  if (q) { q[field] = value; saveLocal("moodQuestions", state.moodBank); }
+}
+function updateMoodOptionField(qid, oid, field, value) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  const o = q && q.options.find((x) => x.id === oid);
+  if (o) { o[field] = field === "energie" ? Number(value) : value; saveLocal("moodQuestions", state.moodBank); }
+}
+function addMoodOption(qid) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  if (q && q.options.length < 6) { q.options.push({ id: uid(), emoji: "✨", text: "Nouvelle option", energie: 1, favor: null }); saveLocal("moodQuestions", state.moodBank); render(); }
+}
+function removeMoodOption(qid, oid) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  if (q && q.options.length > 2) { q.options = q.options.filter((o) => o.id !== oid); saveLocal("moodQuestions", state.moodBank); render(); }
+}
+
+function savePin() {
+  const val = document.getElementById("pinsettings-input").value;
+  if (!/^\d{4,8}$/.test(val)) return;
+  state.coachPin = val; saveLocal("coachPin", val);
+  const btn = document.getElementById("pinsettings-save-btn");
+  if (btn) { btn.textContent = "✓"; setTimeout(() => { btn.textContent = "Enregistrer"; }, 1500); }
+}
+function generateExport() {
+  state.exportCode = encodeConfig({ library: state.library, rewards: state.rewards, moodBank: state.moodBank });
+  render();
+}
+function copyExport() {
+  navigator.clipboard.writeText(state.exportCode).then(() => {
+    state.exportCopied = true; render();
+    setTimeout(() => { state.exportCopied = false; render(); }, 2000);
+  });
+}
+function shareExport() {
+  const msg = "Voici la mise à jour de l'appli 💪\nVa sur l'accueil, appuie sur le petit 🔄 puis colle ce code :\n\n" + state.exportCode;
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+// ---------------------------------------------------------------------------
+// RENDU — GABARITS
+// ---------------------------------------------------------------------------
+
+function bottomNavHTML() {
+  const items = [["home", "Accueil", "home"], ["history", "Historique", "history"], ["rewards", "Récompenses", "trophy"]];
+  return `<div class="bottom-nav"><div class="bottom-nav-inner">${items.map(([key, label, ic]) => `
+    <button class="nav-item ${state.view === key ? "active" : ""}" data-act="nav" data-view="${key}">
+      <span>${EMO[ic]}</span><span class="lbl">${label}</span>
+    </button>`).join("")}</div></div>`;
+}
+
+function renderHome() {
+  const tp = totalPoints(); const ts = totalSeances(); const nr = nextReward();
+  const last3 = [...state.history].slice(-3).reverse();
+  return `
+  <div class="px pt">
+    <div class="row between mb-6" style="align-items:flex-start;">
+      <div>
+        <div class="wordmark-tag">Livia</div>
+        <div class="wordmark">back dans les bask</div>
+      </div>
+      <div class="row gap-2" style="margin-top:.3rem;">
+        <button class="icon-btn" data-act="open-import" aria-label="Mettre à jour">${EMO.refresh}</button>
+        <button class="icon-btn" data-act="open-lock" aria-label="Accès coach" style="opacity:.5;">${EMO.lock}</button>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-cell"><div class="stat-num" style="color:var(--amber);">${tp}</div><div class="stat-label">points cumulés</div></div>
+      <div class="stat-cell"><div class="stat-num" style="color:var(--orange-l);">${ts}</div><div class="stat-label">séances réalisées</div></div>
+    </div>
+    ${nr ? `<div class="mb-6" style="font-size:.9rem;color:var(--muted);">Encore <b style="color:var(--text);">${nr.seuil - tp} pts</b> avant « ${esc(nr.indice)} »</div>` : ""}
+    <button class="btn btn-primary mb-3" data-act="start-flow">${EMO.flame} Nouvelle séance</button>
+    <button class="btn btn-secondary mb-8" data-act="start-direct-flow">Choisir une activité précise</button>
+    ${last3.length ? `
+      <div style="font-size:.75rem;color:var(--muted3);margin-bottom:.75rem;">Dernières séances</div>
+      <div class="col gap-2">
+        ${last3.map((h) => `
+          <div class="card card-l border-diff ${DIFFS[h.difficulte].cls}" style="display:flex;align-items:center;gap:.75rem;">
+            <span>${ACTS[h.activite].icon}</span>
+            <div class="flex-1"><div style="font-size:.9rem;font-weight:500;" class="truncate">${esc(h.seanceTitre)}</div><div style="font-size:.75rem;color:var(--muted3);">${formatDate(h.date)}</div></div>
+            <div style="color:var(--amber);font-size:.9rem;font-weight:700;">+${h.points}</div>
+          </div>`).join("")}
+      </div>` : ""}
+  </div>`;
+}
+
+function renderPinLock() {
+  return `
+  <div class="px pt col" style="min-height:80vh;">
+    <button class="icon-btn mb-8" data-act="nav" data-view="home" style="align-self:flex-start;">${EMO.back}</button>
+    <div class="col center" style="align-items:center;padding-top:2rem;">
+      <div style="font-size:1.8rem;">${EMO.key}</div>
+      <h2 class="title" style="margin-top:.6rem;margin-bottom:.2rem;">Accès coach</h2>
+      <p style="color:var(--muted3);font-size:.9rem;margin-bottom:1.5rem;">Entre le code à 4 chiffres</p>
+      <input id="pin-input-el" type="tel" inputmode="numeric" maxlength="8" autofocus
+        style="width:8rem;text-align:center;font-size:1.5rem;letter-spacing:.5em;padding:.75rem;" data-bind="pin" />
+      ${state.pinError ? `<div style="color:var(--red);font-size:.8rem;margin-top:.5rem;">Code incorrect</div>` : ""}
+      <button class="btn btn-primary" style="width:auto;padding:.75rem 2rem;margin-top:1.2rem;" data-act="pin-submit">Valider</button>
+    </div>
+  </div>`;
+}
+
+function renderImport() {
+  return `
+  <div class="px pt">
+    <button class="icon-btn mb-6" data-act="nav" data-view="home">${EMO.back}</button>
+    <h2 class="title-lg">Mettre à jour</h2>
+    <p style="color:var(--muted3);font-size:.9rem;margin-bottom:1.2rem;">Colle ici le code reçu par WhatsApp pour appliquer les dernières séances, récompenses et questions.</p>
+    <textarea id="import-textarea" rows="6" placeholder="LIVIA-CONFIG:..." style="font-size:.75rem;margin-bottom:.8rem;"></textarea>
+    ${state.importMsg === "ok" ? `<div style="color:var(--emerald);font-size:.9rem;margin-bottom:.8rem;">Mise à jour appliquée ✅</div>` : ""}
+    ${state.importMsg === "erreur" ? `<div style="color:var(--red);font-size:.9rem;margin-bottom:.8rem;">Code invalide, vérifie qu'il est complet.</div>` : ""}
+    <button class="btn btn-primary" data-act="import-apply">Appliquer</button>
+  </div>`;
+}
+
+function renderMood(step) {
+  const q = state.activeQuestions[step - 1];
+  if (!q) return `<div class="px pt"></div>`;
+  return `
+  <div class="px pt col" style="min-height:80vh;">
+    <div class="row gap-3 mb-8">
+      <button class="icon-btn" data-act="${step === 1 ? "nav" : "mood-back"}" ${step === 1 ? 'data-view="home"' : ""}>${EMO.back}</button>
+      <div class="step-dots"><div class="dot on"></div><div class="dot ${step >= 2 ? "on" : ""}"></div></div>
+    </div>
+    <h2 class="title-lg mb-8">${esc(q.question)}</h2>
+    <div>
+      ${q.options.map((opt, i) => `
+        <button class="option-card" data-act="mood-answer" data-step="${step}" data-idx="${i}">
+          <span class="option-emoji">${opt.emoji}</span><span>${esc(opt.text)}</span>
+        </button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function renderChooseActivite() {
+  return `
+  <div class="px pt col" style="min-height:80vh;">
+    <button class="icon-btn mb-8" data-act="nav" data-view="home" style="align-self:flex-start;">${EMO.back}</button>
+    <h2 class="title-lg mb-8">Quelle activité aujourd'hui ?</h2>
+    <div class="col gap-2">
+      ${Object.entries(ACTS).map(([key, a]) => `
+        <button class="option-card" data-act="choose-activite" data-key="${key}">
+          <span class="option-emoji">${a.icon}</span><span>${a.label}</span>
+        </button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function renderDuration() {
+  const direct = state.flowMode === "direct";
+  return `
+  <div class="px pt col" style="min-height:80vh;">
+    <div class="row gap-3 mb-8">
+      <button class="icon-btn" data-act="duration-back">${EMO.back}</button>
+      ${direct ? "" : `<div class="step-dots"><div class="dot on"></div><div class="dot on"></div></div>`}
+    </div>
+    ${direct ? `<div style="font-size:.85rem;color:var(--muted3);margin-bottom:.3rem;">${ACTS[state.directActivite].icon} ${ACTS[state.directActivite].label}</div>` : ""}
+    <h2 class="title-lg mb-8">T'as combien de temps devant toi ?</h2>
+    <div class="grid2">
+      ${DURATIONS.map((d) => `<button class="dur-card" data-act="duration-choose" data-key="${d.key}">${d.label}</button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function renderResult() {
+  const s = state.session;
+  if (!s.seance) {
+    return `<div class="px pt"><p class="empty-note">Aucune séance disponible pour cette combinaison. Ajoute des séances dans l'onglet Coach.</p>
+    <button class="icon-btn" style="color:var(--orange-l);margin-top:1rem;" data-act="nav" data-view="home">Retour à l'accueil</button></div>`;
+  }
+  const act = ACTS[s.activite]; const diff = DIFFS[s.difficulte];
+  return `
+  <div class="px pt">
+    <div class="row gap-2 mb-4"><span>${act.icon}</span><span style="font-size:.9rem;color:var(--muted3);">${act.label}</span></div>
+    <span class="badge ${diff.cls}">${diff.label}</span>
+    <h2 class="title-lg">${esc(s.seance.titre)}</h2>
+    <div style="font-size:.9rem;color:var(--muted);margin-bottom:1.5rem;">${s.duration.label} · <b style="color:var(--amber);">+${s.points} pts</b></div>
+    <p class="quote">${esc(s.quote)}</p>
+    <div class="col gap-3 mb-8">
+      ${s.seance.etapes.map((e, i) => `
+        <div class="row" style="align-items:flex-start;gap:.75rem;">
+          <div class="num-circle">${i + 1}</div><div style="padding-top:.1rem;">${esc(e)}</div>
+        </div>`).join("")}
+    </div>
+    <div class="col gap-3">
+      <button class="btn btn-secondary" data-act="share-programme">${EMO.share} Partager le programme</button>
+      <button class="btn btn-primary" data-act="go-perform">${EMO.check} Séance terminée</button>
+      <button class="btn btn-ghost" data-act="nav" data-view="home">Retour à l'accueil</button>
+    </div>
+  </div>`;
+}
+
+function renderPerform() {
+  const s = state.session; const d = state.performDraft;
+  const fields = PERF_FIELDS[s.activite];
+  return `
+  <div class="px pt">
+    <button class="icon-btn mb-6" data-act="nav" data-view="result">${EMO.back}</button>
+    <h2 class="title-lg mb-6">Comment ça s'est passé ?</h2>
+    ${fields.map((f) => `
+      <div class="field">
+        <label>${f.label}</label>
+        ${f.type === "textarea" ? `<textarea rows="3" placeholder="${esc(f.placeholder || "")}" data-bind="perform" data-field="fields.${f.key}">${esc(d.fields[f.key] || "")}</textarea>` :
+          f.type === "select" ? `<div class="btn-toggle-row">${f.options.map((o) => `<button class="btn-toggle ${d.fields[f.key] === o ? "active" : ""}" data-act="perform-select" data-field="${f.key}" data-value="${o}">${o}</button>`).join("")}</div>` :
+          `<input type="text" placeholder="${esc(f.placeholder || "")}" value="${esc(d.fields[f.key] || "")}" data-bind="perform" data-field="fields.${f.key}" />`}
+      </div>`).join("")}
+    <div class="field">
+      <label>Ton ressenti général</label>
+      <div class="btn-toggle-row">
+        ${RESSENTI_EMOJIS.map((emo, i) => `<button class="emoji-toggle ${d.ressenti === i + 1 ? "active" : ""}" data-act="ressenti-select" data-value="${i + 1}">${emo}</button>`).join("")}
+      </div>
+    </div>
+    <div class="field">
+      <label>Un mot sur la séance (optionnel)</label>
+      <textarea rows="2" placeholder="ex : dur sur la fin mais content-e !" data-bind="perform" data-field="commentaire">${esc(d.commentaire || "")}</textarea>
+    </div>
+    <button class="btn btn-primary" data-act="perform-submit" ${d.ressenti === 0 ? "disabled" : ""}>${EMO.share} Valider et partager</button>
+  </div>`;
+}
+
+function renderDone() {
+  const s = state.session;
+  return `
+  <div class="px" style="padding-top:4rem;text-align:center;">
+    <div style="font-size:3rem;margin-bottom:1.2rem;">${EMO.party}</div>
+    <h2 class="title-lg" style="text-align:center;">Séance validée !</h2>
+    <p style="color:var(--muted3);margin-bottom:2rem;">+${s.points} points ajoutés · total : ${totalPoints()} pts</p>
+    <button class="btn btn-primary" style="width:auto;padding:.85rem 2rem;" data-act="nav" data-view="home">Retour à l'accueil</button>
+  </div>`;
+}
+
+function renderHistory() {
+  const sorted = [...state.history].reverse();
+  if (!sorted.length) return `<div class="px pt"><h2 class="title-lg mb-4">Historique</h2><p class="empty-note">Aucune séance réalisée pour l'instant.</p></div>`;
+  return `
+  <div class="px pt">
+    <h2 class="title-lg mb-5">Historique</h2>
+    <div class="col gap-2">
+      ${sorted.map((h) => {
+        const diff = DIFFS[h.difficulte]; const open = state.expandedHistoryId === h.id;
+        const previous = state.history.filter((x) => x.seanceId === h.seanceId && x.date < h.date);
+        return `
+        <div class="card card-l border-diff ${diff.cls}" style="padding:0;overflow:hidden;">
+          <button data-act="history-toggle" data-id="${h.id}" style="width:100%;background:none;border:none;text-align:left;display:flex;align-items:center;gap:.75rem;padding:.75rem;">
+            <span>${ACTS[h.activite].icon}</span>
+            <div class="flex-1"><div style="font-size:.9rem;font-weight:500;" class="truncate">${esc(h.seanceTitre)}</div><div style="font-size:.75rem;color:var(--muted3);">${formatDate(h.date)} · ${diff.label}</div></div>
+            <div style="color:var(--amber);font-size:.9rem;font-weight:700;">+${h.points}</div>
+          </button>
+          ${open ? `
+          <div style="padding:0 .75rem .75rem;font-size:.85rem;border-top:1px solid var(--border);padding-top:.75rem;">
+            ${Object.entries(h.performance || {}).filter(([, v]) => v).map(([k, v]) => `<div style="color:var(--muted2);"><span style="color:var(--muted3);">${esc(k)} : </span>${esc(v)}</div>`).join("")}
+            <div style="color:var(--muted2);"><span style="color:var(--muted3);">Ressenti : </span>${RESSENTI_EMOJIS[h.ressenti - 1] || ""}</div>
+            ${h.commentaire ? `<div style="color:var(--muted3);font-style:italic;margin-top:.3rem;">"${esc(h.commentaire)}"</div>` : ""}
+            ${previous.length ? `
+              <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);">
+                <div style="font-size:.75rem;color:var(--muted3);margin-bottom:.4rem;">Fois précédentes sur cette séance</div>
+                ${previous.slice(-3).reverse().map((p) => `<div style="font-size:.75rem;color:var(--muted2);">${formatDate(p.date)} — ${esc(Object.values(p.performance || {}).filter(Boolean).join(" · ") || "—")}</div>`).join("")}
+              </div>` : ""}
+          </div>` : ""}
+        </div>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+function renderRewards() {
+  const tp = totalPoints();
+  const sorted = [...state.rewards].sort((a, b) => a.seuil - b.seuil);
+  return `
+  <div class="px pt">
+    <h2 class="title-lg">Récompenses</h2>
+    <p style="color:var(--muted3);font-size:.9rem;margin-bottom:1.5rem;">${tp} points cumulés</p>
+    <div class="col gap-3">
+      ${sorted.map((r) => {
+        const unlocked = tp >= r.seuil;
+        return `
+        <div class="card" style="display:flex;align-items:center;gap:.75rem;${unlocked ? "border-color:var(--amber);background:var(--amber-soft);" : ""}">
+          <span>${unlocked ? EMO.star : EMO.lock}</span>
+          <div class="flex-1">
+            ${unlocked ? `<div style="font-size:.9rem;font-weight:500;">${esc(r.titre)}</div>` : `<div style="font-size:.9rem;color:var(--muted2);font-style:italic;">${esc(r.indice || "Indice à venir…")}</div>`}
+            <div style="font-size:.75rem;color:var(--muted3);">${r.seuil} pts${!unlocked ? " · encore " + (r.seuil - tp) + " pts" : ""}</div>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+const FAVOR_LABELS = { course: "Course", muscu: "Muscu", padel: "Padel", pilates: "Pilates", natation: "Natation", ski: "Ski", yoga: "Yoga" };
+
+function renderCoach() {
+  const tabs = [["seances", "Séances"], ["mood", "Questions mood"], ["rewards", "Récompenses"], ["reglages", "Réglages"]];
+  let body = "";
+  if (state.coachTab === "seances") body = renderCoachSeances();
+  else if (state.coachTab === "rewards") body = renderCoachRewards();
+  else if (state.coachTab === "mood") body = renderCoachMood();
+  else if (state.coachTab === "reglages") body = renderCoachReglages();
+
+  return `
+  <div class="px pt">
+    <h2 class="title-lg mb-5">Mode coach</h2>
+    <div class="coach-tabs">
+      ${tabs.map(([key, label]) => `<button class="btn-sm ${state.coachTab === key ? "active" : ""}" data-act="coach-tab" data-tab="${key}">${label}</button>`).join("")}
+    </div>
+    ${body}
+  </div>`;
+}
+
+function renderCoachSeances() {
+  if (state.editingSeanceId) return renderSeanceEditor();
+  const list = state.library[state.coachActivite][state.coachDifficulte];
+  return `
+    <div class="coach-tabs">
+      ${Object.entries(ACTS).map(([key, a]) => `<button class="btn-sm ${state.coachActivite === key ? "active" : ""}" data-act="coach-activite" data-key="${key}">${a.label}</button>`).join("")}
+    </div>
+    <div class="row gap-2 mb-5">
+      ${DIFF_ORDER.map((key) => `<button class="diff-filter ${DIFFS[key].cls} ${state.coachDifficulte === key ? "active" : ""}" data-act="coach-difficulte" data-key="${key}">${DIFFS[key].label}</button>`).join("")}
+    </div>
+    <div class="col gap-2 mb-4">
+      ${list.map((s, i) => `
+        <div class="card">
+          <div class="row between mb-1">
+            <div style="font-size:.9rem;font-weight:500;"><span style="color:var(--muted3);margin-right:.3rem;">${i + 1}.</span>${esc(s.titre)}</div>
+            <div class="row gap-2">
+              <button class="icon-btn soft" data-act="seance-edit" data-id="${s.id}">${EMO.edit}</button>
+              <button class="icon-btn soft" data-act="seance-delete" data-id="${s.id}">${EMO.trash}</button>
+            </div>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted3);">${s.duree} min · ${s.points} pts de base</div>
+        </div>`).join("")}
+    </div>
+    <button class="btn btn-secondary" style="border-style:dashed;" data-act="seance-edit" data-id="new">${EMO.plus} Ajouter une séance</button>
+  `;
+}
+
+function renderSeanceEditor() {
+  const d = state.seanceDraft;
+  return `
+  <div class="card mb-4">
+    <div class="field">
+      <label>Titre</label>
+      <input value="${esc(d.titre)}" data-bind="draft" data-field="titre" />
+    </div>
+    <div class="row gap-3 mb-4">
+      <div class="field flex-1" style="margin-bottom:0;">
+        <label>Durée (min)</label>
+        <input type="number" value="${d.duree}" data-bind="draft" data-field="duree" />
+      </div>
+      <div class="field flex-1" style="margin-bottom:0;">
+        <label>Points de base</label>
+        <input type="number" value="${d.points}" data-bind="draft" data-field="points" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Étapes (une par ligne)</label>
+      <textarea rows="5" data-bind="draft" data-field="etapesText">${esc(d.etapesText)}</textarea>
+    </div>
+    <div class="row gap-2">
+      <button class="btn btn-secondary" data-act="seance-cancel">${EMO.close} Annuler</button>
+      <button class="btn btn-primary" style="background:var(--orange);" data-act="seance-save">${EMO.save} Enregistrer</button>
+    </div>
+  </div>`;
+}
+
+function renderCoachRewards() {
+  const sorted = [...state.rewards].sort((a, b) => a.seuil - b.seuil);
+  return `
+    <div class="col gap-2 mb-4">
+      ${sorted.map((r) => `
+        <div class="card">
+          <div class="row gap-2 mb-2">
+            <input type="number" style="width:4.5rem;text-align:center;flex:none;" value="${r.seuil}" data-bind="rewards" data-id="${r.id}" data-field="seuil" />
+            <input class="flex-1" placeholder="Nom réel (caché jusqu'au déblocage)" value="${esc(r.titre)}" data-bind="rewards" data-id="${r.id}" data-field="titre" />
+            <button class="icon-btn soft" data-act="reward-remove" data-id="${r.id}">${EMO.trash}</button>
+          </div>
+          <input style="font-size:.75rem;font-style:italic;color:var(--muted2);" placeholder="Indice affiché tant que c'est verrouillé" value="${esc(r.indice || "")}" data-bind="rewards" data-id="${r.id}" data-field="indice" />
+        </div>`).join("")}
+    </div>
+    ${state.addingReward ? `
+      <div class="card mb-2">
+        <div class="row gap-2 mb-2">
+          <input type="number" style="width:4.5rem;text-align:center;flex:none;" value="${state.newReward.seuil}" data-bind="newreward" data-field="seuil" />
+          <input class="flex-1" placeholder="Nom réel de la récompense" value="${esc(state.newReward.titre)}" data-bind="newreward" data-field="titre" />
+          <button class="icon-btn" style="color:var(--orange-l);" data-act="reward-add">${EMO.check}</button>
+        </div>
+        <input style="font-size:.75rem;font-style:italic;color:var(--muted2);" placeholder="Indice affiché tant que c'est verrouillé" value="${esc(state.newReward.indice)}" data-bind="newreward" data-field="indice" />
+      </div>` : `
+      <button class="btn btn-secondary" style="border-style:dashed;" data-act="reward-add-toggle">${EMO.plus} Ajouter une récompense</button>`}
+  `;
+}
+
+function renderCoachMood() {
+  if (state.editingMoodQId) {
+    const q = state.moodBank.find((x) => x.id === state.editingMoodQId);
+    return `
+    <button class="icon-btn soft mb-4" data-act="mood-editor-back">${EMO.back} Retour à la banque</button>
+    <div class="field">
+      <label>Texte de la question</label>
+      <input value="${esc(q.question)}" data-bind="moodq" data-qid="${q.id}" data-field="question" />
+    </div>
+    <div class="col gap-3 mb-4">
+      ${q.options.map((o) => `
+        <div class="card">
+          <div class="row gap-2 mb-2">
+            <input style="width:3rem;text-align:center;flex:none;" value="${esc(o.emoji)}" data-bind="moodopt" data-qid="${q.id}" data-oid="${o.id}" data-field="emoji" />
+            <input class="flex-1" value="${esc(o.text)}" data-bind="moodopt" data-qid="${q.id}" data-oid="${o.id}" data-field="text" />
+            <button class="icon-btn soft" data-act="moodopt-remove" data-qid="${q.id}" data-oid="${o.id}" ${q.options.length <= 2 ? "disabled" : ""}>${EMO.trash}</button>
+          </div>
+          <div class="row gap-2 mb-2">
+            <span style="font-size:.75rem;color:var(--muted3);width:4rem;flex:none;">Énergie</span>
+            <div class="row gap-1" style="flex:1;">
+              ${[0, 1, 2].map((e) => `<button class="btn-pill-small ${o.energie === e ? "active" : ""}" data-act="moodopt-energie" data-qid="${q.id}" data-oid="${o.id}" data-val="${e}">${e}</button>`).join("")}
+            </div>
+          </div>
+          <div class="row gap-2" style="align-items:flex-start;">
+            <span style="font-size:.75rem;color:var(--muted3);width:4rem;flex:none;padding-top:.4rem;">Active plutôt</span>
+            <div class="row wrap gap-1" style="flex:1;">
+              <button class="btn-pill-small ${!o.favor ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor" data-qid="${q.id}" data-oid="${o.id}" data-val="">Aucune</button>
+              ${Object.entries(FAVOR_LABELS).map(([key, label]) => `<button class="btn-pill-small ${o.favor === key ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor" data-qid="${q.id}" data-oid="${o.id}" data-val="${key}">${label}</button>`).join("")}
+            </div>
+          </div>
+        </div>`).join("")}
+    </div>
+    ${q.options.length < 6 ? `<button class="btn btn-secondary" style="border-style:dashed;" data-act="moodopt-add" data-qid="${q.id}">${EMO.plus} Ajouter une option</button>` : ""}
+    `;
+  }
+  return `
+    <p style="font-size:.75rem;color:var(--muted3);margin-bottom:1.1rem;">À chaque nouvelle séance, 2 questions sont tirées au hasard dans cette banque pour éviter la répétition.</p>
+    <div class="col gap-2 mb-4">
+      ${state.moodBank.map((q) => `
+        <div class="row gap-2 card">
+          <div class="flex-1"><div style="font-size:.9rem;font-weight:500;" class="truncate">${esc(q.question)}</div><div style="font-size:.75rem;color:var(--muted3);">${q.options.length} options</div></div>
+          <button class="icon-btn soft" data-act="mood-editor-open" data-id="${q.id}">${EMO.edit}</button>
+          <button class="icon-btn soft" data-act="mood-q-remove" data-id="${q.id}" ${state.moodBank.length <= 2 ? "disabled" : ""}>${EMO.trash}</button>
+        </div>`).join("")}
+    </div>
+    <button class="btn btn-secondary" style="border-style:dashed;" data-act="mood-q-add">${EMO.plus} Ajouter une question à la banque</button>
+  `;
+}
+
+function renderCoachReglages() {
+  return `
+    <div class="card mb-5">
+      <label style="display:block;font-size:.9rem;color:var(--muted);margin-bottom:.5rem;">Code d'accès au mode coach</label>
+      <p style="font-size:.75rem;color:var(--muted3);margin-bottom:.8rem;">Ce code (4 à 8 chiffres) protège cet onglet. Ne le partage pas avec Livia.</p>
+      <div class="row gap-2">
+        <input id="pinsettings-input" type="tel" inputmode="numeric" value="${esc(state.coachPin)}" data-bind="pinsettings" style="letter-spacing:.2em;" />
+        <button id="pinsettings-save-btn" class="btn-sm active" style="padding:.65rem 1rem;" data-act="pin-save">Enregistrer</button>
+      </div>
+    </div>
+    <div class="card">
+      <label style="display:block;font-size:.9rem;color:var(--muted);margin-bottom:.5rem;">Envoyer tes changements à Livia</label>
+      <p style="font-size:.75rem;color:var(--muted3);margin-bottom:.8rem;">Chaque appareil garde ses propres données. Après avoir modifié des séances, récompenses ou questions, génère un code et envoie-le lui : elle l'appliquera depuis l'accueil (🔄 Mettre à jour).</p>
+      <button class="btn btn-secondary mb-3" data-act="export-generate">Générer le code de mise à jour</button>
+      ${state.exportCode ? `
+        <textarea readonly rows="4" style="font-size:.7rem;margin-bottom:.6rem;">${state.exportCode}</textarea>
+        <div class="row gap-2">
+          <button class="btn btn-secondary" data-act="export-copy">${state.exportCopied ? "Copié ✓" : "Copier"}</button>
+          <button class="btn btn-primary" style="padding:.65rem;" data-act="export-share">${EMO.share} WhatsApp</button>
+        </div>` : ""}
+    </div>
+  `;
+}
+
+// ---------------------------------------------------------------------------
+// RENDU PRINCIPAL
+// ---------------------------------------------------------------------------
+
+const NAV_VIEWS = ["home", "history", "rewards", "coach"];
+
+function render() {
+  let body = "";
+  switch (state.view) {
+    case "home": body = renderHome(); break;
+    case "pinlock": body = renderPinLock(); break;
+    case "importconfig": body = renderImport(); break;
+    case "mood1": body = renderMood(1); break;
+    case "mood2": body = renderMood(2); break;
+    case "choose-activite": body = renderChooseActivite(); break;
+    case "duration": body = renderDuration(); break;
+    case "result": body = renderResult(); break;
+    case "perform": body = renderPerform(); break;
+    case "done": body = renderDone(); break;
+    case "history": body = renderHistory(); break;
+    case "rewards": body = renderRewards(); break;
+    case "coach": body = renderCoach(); break;
+    default: body = renderHome();
+  }
+  const showNav = NAV_VIEWS.includes(state.view);
+  document.getElementById("root").innerHTML = `<div class="app">${body}${showNav ? bottomNavHTML() : ""}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// DÉLÉGATION D'ÉVÉNEMENTS
+// ---------------------------------------------------------------------------
+
+document.addEventListener("click", function (e) {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+  switch (act) {
+    case "nav": setView(el.dataset.view); break;
+    case "start-flow": startFlow(); break;
+    case "start-direct-flow": startDirectFlow(); break;
+    case "choose-activite": chooseActiviteDirect(el.dataset.key); break;
+    case "open-lock": state.pinError = false; setView("pinlock"); break;
+    case "open-import": state.importMsg = ""; setView("importconfig"); break;
+    case "pin-submit": tryUnlockCoach(); break;
+    case "import-apply": applyImport(); break;
+    case "mood-answer": {
+      const step = Number(el.dataset.step); const idx = Number(el.dataset.idx);
+      answerMood(step, state.activeQuestions[step - 1].options[idx]);
+      break;
+    }
+    case "mood-back": setView("mood1"); break;
+    case "duration-back": setView(state.flowMode === "direct" ? "choose-activite" : "mood2"); break;
+    case "duration-choose": chooseDuration(el.dataset.key); break;
+    case "share-programme": shareProgramme(); break;
+    case "go-perform": goPerform(); break;
+    case "perform-select": setPerformSelect(el.dataset.field, el.dataset.value); break;
+    case "ressenti-select": setRessenti(Number(el.dataset.value)); break;
+    case "perform-submit": submitPerformance(); break;
+    case "history-toggle": toggleHistory(el.dataset.id); break;
+    case "coach-tab": setCoachTab(el.dataset.tab); break;
+    case "coach-activite": setCoachActivite(el.dataset.key); break;
+    case "coach-difficulte": setCoachDifficulte(el.dataset.key); break;
+    case "seance-edit": openSeanceEditor(el.dataset.id); break;
+    case "seance-cancel": cancelSeanceEditor(); break;
+    case "seance-save": saveSeanceEditor(); break;
+    case "seance-delete": deleteSeance(el.dataset.id); break;
+    case "reward-remove": removeReward(el.dataset.id); break;
+    case "reward-add-toggle": toggleAddReward(); break;
+    case "reward-add": addReward(); break;
+    case "mood-editor-open": openMoodEditor(el.dataset.id); break;
+    case "mood-editor-back": backMoodBank(); break;
+    case "mood-q-add": addMoodQuestion(); break;
+    case "mood-q-remove": removeMoodQuestion(el.dataset.id); break;
+    case "moodopt-energie": updateMoodOptionField(el.dataset.qid, el.dataset.oid, "energie", el.dataset.val); render(); break;
+    case "moodopt-favor": updateMoodOptionField(el.dataset.qid, el.dataset.oid, "favor", el.dataset.val || null); render(); break;
+    case "moodopt-add": addMoodOption(el.dataset.qid); break;
+    case "moodopt-remove": removeMoodOption(el.dataset.qid, el.dataset.oid); break;
+    case "pin-save": savePin(); break;
+    case "export-generate": generateExport(); break;
+    case "export-copy": copyExport(); break;
+    case "export-share": shareExport(); break;
+  }
+});
+
+document.addEventListener("input", function (e) {
+  const el = e.target;
+  const bind = el.dataset.bind;
+  if (!bind) return;
+  const value = el.value;
+  if (bind === "rewards") updateRewardField(el.dataset.id, el.dataset.field, value);
+  else if (bind === "moodq") updateMoodQuestionField(el.dataset.qid, el.dataset.field, value);
+  else if (bind === "moodopt") updateMoodOptionField(el.dataset.qid, el.dataset.oid, el.dataset.field, value);
+  else if (bind === "draft") state.seanceDraft[el.dataset.field] = value;
+  else if (bind === "perform") setPath(state.performDraft, el.dataset.field, value);
+  else if (bind === "pin") { el.value = value.replace(/\D/g, ""); }
+  else if (bind === "pinsettings") { el.value = value.replace(/\D/g, ""); }
+  else if (bind === "newreward") state.newReward[el.dataset.field] = el.dataset.field === "seuil" ? Number(value) : value;
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && e.target.id === "pin-input-el") tryUnlockCoach();
+});
+
+// ---------------------------------------------------------------------------
+// DÉMARRAGE
+// ---------------------------------------------------------------------------
+
+render();
+</script>
+</body>
+</html>
