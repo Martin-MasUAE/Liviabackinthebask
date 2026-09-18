@@ -70,7 +70,8 @@
   .btn-ghost{background:none;border:none;color:var(--muted2);font-size:.9rem;width:100%;text-align:center;padding:.5rem;}
   .btn-sm{border-radius:999px;padding:.5rem .9rem;font-size:.85rem;font-weight:700;background:var(--card);color:var(--muted);border:none;white-space:nowrap;}
   .btn-sm.active{background:var(--text);color:var(--bg);}
-  .btn-pill-small{border-radius:999px;padding:.4rem .5rem;font-size:.72rem;font-weight:700;background:var(--card);color:var(--muted);border:none;flex:1;}
+  .btn-pill-small{border-radius:999px;padding:.4rem .5rem;font-size:.72rem;font-weight:700;background:var(--card);color:var(--muted);border:1px solid var(--border);flex:1;}
+  .btn-pill-small.active{background:var(--orange);color:#fff;border-color:var(--orange);}
 
   .card{background:var(--card);border:1px solid var(--border);border-radius:.6rem;padding:.85rem;}
   .card-l{border-left:2px solid var(--border);}
@@ -271,56 +272,56 @@ const DEFAULT_REWARDS = [
 const DEFAULT_COACH_PIN = "0000";
 
 const QUOTES = [
-  "Le canapé sera toujours là. Cette version de toi qui y va, un peu moins souvent.",
-  "T'as pas besoin d'avoir envie. T'as juste besoin de commencer.",
-  "Chaque séance est un dépôt sur un compte que personne ne peut te retirer.",
-  "Le pire moment, c'est avant. Après, t'es toujours content.",
-  "Personne ne regrette une séance faite. Beaucoup regrettent celle qu'ils ont sautée.",
-  "T'es pas obligée d'être rapide. Juste d'être là.",
-  "Ton futur toi te dit déjà merci.",
-  "Un pas après l'autre, un point après l'autre.",
-  "La motivation te lance. La discipline te fait finir.",
-  "Aujourd'hui c'est pas pour être parfaite, c'est pour être présente.",
-  "Ce que tu fais aujourd'hui te rendra plus forte demain.",
-  "Respire, avance, et fais-toi fière.",
+  "T'es la meilleure je crois en toi",
+  "C'est que quelques minutes dans la journée pour te sentir au max",
+  "De jour en jour tu t'améliores",
+  "Le pire moment, c'est avant. Après, t'es toujours contente",
+  "J'aime ta motivation ! Je suis à fond derrière toi",
+  "T'es un exemple à suivre",
+  "Imagine tu va te voir comme moi je te vois: exceptionnelle",
+  "Ne lâche rien, tant que je suis là tu pourras pas",
+  "Tu vas être monstrueuse sur cette séance,
+  "J'espère que tu vas être fière de toi",
+  "Pas de repos pour les héros comme toi",
+  "C'est qu'un mauvais moment, après tu seras contente",
 ];
 
 const DEFAULT_MOOD_BANK = [
   { id: "q1", question: "Si aujourd'hui t'étais une météo, tu serais plutôt…", options: [
-    { id: "q1a", emoji: "☀️", text: "Grand soleil, prête à tout cramer", energie: 2, favor: null },
-    { id: "q1b", emoji: "🌤️", text: "Petit nuage sympa, ça va", energie: 1, favor: null },
-    { id: "q1c", emoji: "🌧️", text: "Petite pluie, motivation en option", energie: 0, favor: null },
-    { id: "q1d", emoji: "🌪️", text: "Tempête, besoin de tout déverser", energie: 2, favor: null },
+    { id: "q1a", emoji: "☀️", text: "Grand soleil, prête à tout cramer", energie: 2, favors: [] },
+    { id: "q1b", emoji: "🌤️", text: "Petit nuage sympa, ça va", energie: 1, favors: [] },
+    { id: "q1c", emoji: "🌧️", text: "Petite pluie, motivation en option", energie: 0, favors: [] },
+    { id: "q1d", emoji: "🌪️", text: "Tempête, besoin de tout déverser", energie: 2, favors: [] },
   ]},
   { id: "q2", question: "Et si ta séance était une musique, ce serait…", options: [
-    { id: "q2a", emoji: "🎵", text: "Une ballade tranquille", energie: 0, favor: "yoga" },
-    { id: "q2b", emoji: "🎧", text: "Un tube qui donne envie de courir", energie: 1, favor: "course" },
-    { id: "q2c", emoji: "🥁", text: "Un remix qui tape fort", energie: 2, favor: "muscu" },
-    { id: "q2d", emoji: "🎉", text: "Une chanson de teuf entre potes", energie: 1, favor: "padel" },
+    { id: "q2a", emoji: "🎵", text: "Une ballade tranquille", energie: 0, favors: ["yoga"] },
+    { id: "q2b", emoji: "🎧", text: "Un tube qui donne envie de courir", energie: 1, favors: ["course"] },
+    { id: "q2c", emoji: "🥁", text: "Un remix qui tape fort", energie: 2, favors: ["muscu"] },
+    { id: "q2d", emoji: "🎉", text: "Une chanson de teuf entre potes", energie: 1, favors: ["padel"] },
   ]},
   { id: "q3", question: "Ton énergie du moment, c'est plutôt…", options: [
-    { id: "q3a", emoji: "🔋", text: "Batterie à fond", energie: 2, favor: null },
-    { id: "q3b", emoji: "🙂", text: "Ça va, correct", energie: 1, favor: null },
-    { id: "q3c", emoji: "🪫", text: "Batterie faible mais motivée", energie: 0, favor: "pilates" },
-    { id: "q3d", emoji: "😤", text: "Besoin de tout lâcher", energie: 2, favor: null },
+    { id: "q3a", emoji: "🔋", text: "Batterie à fond", energie: 2, favors: [] },
+    { id: "q3b", emoji: "🙂", text: "Ça va, correct", energie: 1, favors: [] },
+    { id: "q3c", emoji: "🪫", text: "Batterie faible mais motivée", energie: 0, favors: ["pilates"] },
+    { id: "q3d", emoji: "😤", text: "Besoin de tout lâcher", energie: 2, favors: [] },
   ]},
   { id: "q4", question: "Là tout de suite, t'as surtout envie de…", options: [
-    { id: "q4a", emoji: "🏃‍♀️", text: "Te défouler en solo", energie: 1, favor: "course" },
-    { id: "q4b", emoji: "🏋️‍♀️", text: "Pousser un peu de fonte", energie: 2, favor: "muscu" },
-    { id: "q4c", emoji: "🎾", text: "Voir du monde et rigoler", energie: 1, favor: "padel" },
-    { id: "q4d", emoji: "🧘‍♀️", text: "Bouger doucement, sans pression", energie: 0, favor: "yoga" },
+    { id: "q4a", emoji: "🏃‍♀️", text: "Te défouler en solo", energie: 1, favors: ["course"] },
+    { id: "q4b", emoji: "🏋️‍♀️", text: "Pousser un peu de fonte", energie: 2, favors: ["muscu"] },
+    { id: "q4c", emoji: "🎾", text: "Voir du monde et rigoler", energie: 1, favors: ["padel", "pilates"] },
+    { id: "q4d", emoji: "🧘‍♀️", text: "Bouger doucement, sans pression", energie: 0, favors: ["yoga"] },
   ]},
   { id: "q5", question: "Si ta séance avait une couleur aujourd'hui, ce serait…", options: [
-    { id: "q5a", emoji: "🔴", text: "Rouge, à fond", energie: 2, favor: null },
-    { id: "q5b", emoji: "🟠", text: "Orange, ça tourne bien", energie: 1, favor: null },
-    { id: "q5c", emoji: "🟡", text: "Jaune, tranquille", energie: 0, favor: null },
-    { id: "q5d", emoji: "🟣", text: "Violet, envie de fun", energie: 1, favor: "padel" },
+    { id: "q5a", emoji: "🔴", text: "Rouge, à fond", energie: 2, favors: [] },
+    { id: "q5b", emoji: "🟠", text: "Orange, ça tourne bien", energie: 1, favors: [] },
+    { id: "q5c", emoji: "🟡", text: "Jaune, tranquille", energie: 0, favors: [] },
+    { id: "q5d", emoji: "🟣", text: "Violet, envie de fun", energie: 1, favors: ["padel"] },
   ]},
   { id: "q6", question: "T'as la tête plutôt…", options: [
-    { id: "q6a", emoji: "🎯", text: "Prête à me challenger", energie: 2, favor: "course" },
-    { id: "q6b", emoji: "🧠", text: "Focus et déterminée", energie: 2, favor: "muscu" },
-    { id: "q6c", emoji: "😌", text: "Zen, présente", energie: 0, favor: "yoga" },
-    { id: "q6d", emoji: "🤪", text: "Envie de rire un coup", energie: 1, favor: "padel" },
+    { id: "q6a", emoji: "🎯", text: "Prête à me challenger", energie: 2, favors: ["course"] },
+    { id: "q6b", emoji: "🧠", text: "Focus et déterminée", energie: 2, favors: ["muscu"] },
+    { id: "q6c", emoji: "😌", text: "Zen, présente", energie: 0, favors: ["yoga"] },
+    { id: "q6d", emoji: "🤪", text: "Envie de rire un coup", energie: 1, favors: ["padel"] },
   ]},
 ];
 
@@ -367,8 +368,13 @@ function weightedPick(weights) {
 }
 function pickActivite(q2) {
   const weights = { course: 5, muscu: 3, padel: 1.2, pilates: 1.2, natation: 1, yoga: 1, ski: 0.4 };
-  if (q2 && q2.favor) weights[q2.favor] += 2.5;
   return weightedPick(weights);
+}
+function pickActiviteFromFavors(favors, difficulte, history) {
+  const doneAtDiff = new Set(history.filter((h) => h.difficulte === difficulte).map((h) => h.activite));
+  const notDone = favors.filter((a) => !doneAtDiff.has(a));
+  const pool = notDone.length > 0 ? notDone : favors;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 function pickDifficulte(history, energie) {
   const excluded = new Set();
@@ -504,15 +510,20 @@ function answerMood(step, opt) {
 }
 function chooseDuration(key) {
   const dur = DURATIONS.find((d) => d.key === key);
-  let energie, activite;
+  let energie, activite, difficulte;
   if (state.flowMode === "direct") {
     activite = state.directActivite;
     energie = 1;
+    difficulte = pickDifficulte(state.history, energie);
   } else {
     energie = ((state.moodAnswers.q1 && state.moodAnswers.q1.energie) || 0) + ((state.moodAnswers.q2 && state.moodAnswers.q2.energie) || 0);
-    activite = pickActivite(state.moodAnswers.q2);
+    difficulte = pickDifficulte(state.history, energie);
+    const favors = Array.from(new Set([
+      ...((state.moodAnswers.q1 && state.moodAnswers.q1.favors) || []),
+      ...((state.moodAnswers.q2 && state.moodAnswers.q2.favors) || []),
+    ]));
+    activite = favors.length > 0 ? pickActiviteFromFavors(favors, difficulte, state.history) : pickActivite();
   }
-  const difficulte = pickDifficulte(state.history, energie);
   const seance = pickSeance(state.library, activite, difficulte, state.history);
   const points = seance ? calcPoints(seance, dur.minutes) : 0;
   const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
@@ -647,8 +658,8 @@ function openMoodEditor(id) { state.editingMoodQId = id; render(); }
 function backMoodBank() { state.editingMoodQId = null; render(); }
 function addMoodQuestion() {
   const q = { id: uid(), question: "Nouvelle question", options: [
-    { id: uid(), emoji: "✨", text: "Option 1", energie: 0, favor: null },
-    { id: uid(), emoji: "✨", text: "Option 2", energie: 1, favor: null },
+    { id: uid(), emoji: "✨", text: "Option 1", energie: 0, favors: [] },
+    { id: uid(), emoji: "✨", text: "Option 2", energie: 1, favors: [] },
   ]};
   state.moodBank.push(q);
   saveLocal("moodQuestions", state.moodBank);
@@ -670,9 +681,26 @@ function updateMoodOptionField(qid, oid, field, value) {
   const o = q && q.options.find((x) => x.id === oid);
   if (o) { o[field] = field === "energie" ? Number(value) : value; saveLocal("moodQuestions", state.moodBank); }
 }
+function toggleMoodOptionFavor(qid, oid, key) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  const o = q && q.options.find((x) => x.id === oid);
+  if (!o) return;
+  if (!o.favors) o.favors = [];
+  const idx = o.favors.indexOf(key);
+  if (idx >= 0) o.favors.splice(idx, 1);
+  else o.favors.push(key);
+  saveLocal("moodQuestions", state.moodBank);
+}
+function clearMoodOptionFavors(qid, oid) {
+  const q = state.moodBank.find((x) => x.id === qid);
+  const o = q && q.options.find((x) => x.id === oid);
+  if (!o) return;
+  o.favors = [];
+  saveLocal("moodQuestions", state.moodBank);
+}
 function addMoodOption(qid) {
   const q = state.moodBank.find((x) => x.id === qid);
-  if (q && q.options.length < 6) { q.options.push({ id: uid(), emoji: "✨", text: "Nouvelle option", energie: 1, favor: null }); saveLocal("moodQuestions", state.moodBank); render(); }
+  if (q && q.options.length < 6) { q.options.push({ id: uid(), emoji: "✨", text: "Nouvelle option", energie: 1, favors: [] }); saveLocal("moodQuestions", state.moodBank); render(); }
 }
 function removeMoodOption(qid, oid) {
   const q = state.moodBank.find((x) => x.id === qid);
@@ -1077,10 +1105,10 @@ function renderCoachMood() {
             </div>
           </div>
           <div class="row gap-2" style="align-items:flex-start;">
-            <span style="font-size:.75rem;color:var(--muted3);width:4rem;flex:none;padding-top:.4rem;">Active plutôt</span>
+            <span style="font-size:.75rem;color:var(--muted3);width:4rem;flex:none;padding-top:.4rem;">Active plutôt<br/><span style="opacity:.7;">(plusieurs possibles)</span></span>
             <div class="row wrap gap-1" style="flex:1;">
-              <button class="btn-pill-small ${!o.favor ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor" data-qid="${q.id}" data-oid="${o.id}" data-val="">Aucune</button>
-              ${Object.entries(FAVOR_LABELS).map(([key, label]) => `<button class="btn-pill-small ${o.favor === key ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor" data-qid="${q.id}" data-oid="${o.id}" data-val="${key}">${label}</button>`).join("")}
+              <button class="btn-pill-small ${(!o.favors || o.favors.length === 0) ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor-clear" data-qid="${q.id}" data-oid="${o.id}">Aucune</button>
+              ${Object.entries(FAVOR_LABELS).map(([key, label]) => `<button class="btn-pill-small ${(o.favors || []).includes(key) ? "active" : ""}" style="flex:none;padding:.4rem .6rem;" data-act="moodopt-favor-toggle" data-qid="${q.id}" data-oid="${o.id}" data-val="${key}">${label}</button>`).join("")}
             </div>
           </div>
         </div>`).join("")}
@@ -1200,7 +1228,8 @@ document.addEventListener("click", function (e) {
     case "mood-q-add": addMoodQuestion(); break;
     case "mood-q-remove": removeMoodQuestion(el.dataset.id); break;
     case "moodopt-energie": updateMoodOptionField(el.dataset.qid, el.dataset.oid, "energie", el.dataset.val); render(); break;
-    case "moodopt-favor": updateMoodOptionField(el.dataset.qid, el.dataset.oid, "favor", el.dataset.val || null); render(); break;
+    case "moodopt-favor-toggle": toggleMoodOptionFavor(el.dataset.qid, el.dataset.oid, el.dataset.val); render(); break;
+    case "moodopt-favor-clear": clearMoodOptionFavors(el.dataset.qid, el.dataset.oid); render(); break;
     case "moodopt-add": addMoodOption(el.dataset.qid); break;
     case "moodopt-remove": removeMoodOption(el.dataset.qid, el.dataset.oid); break;
     case "pin-save": savePin(); break;
