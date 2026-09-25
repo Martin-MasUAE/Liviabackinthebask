@@ -272,18 +272,18 @@ const DEFAULT_REWARDS = [
 const DEFAULT_COACH_PIN = "0000";
 
 const QUOTES = [
-  "T'es la meilleure je crois en toi",
-  "C'est que quelques minutes dans la journée pour te sentir au max",
-  "De jour en jour tu t'améliores",
-  "Le pire moment, c'est avant. Après, t'es toujours contente",
-  "J'aime ta motivation ! Je suis à fond derrière toi",
-  "T'es un exemple à suivre",
-  "Imagine tu va te voir comme moi je te vois: exceptionnelle",
-  "Ne lâche rien, tant que je suis là tu pourras pas",
-  "Tu vas être monstrueuse sur cette séance",
-  "J'espère que tu vas être fière de toi",
-  "Pas de repos pour les héros comme toi",
-  "C'est qu'un mauvais moment, après tu seras contente",
+  "Le canapé sera toujours là. Cette version de toi qui y va, un peu moins souvent.",
+  "T'as pas besoin d'avoir envie. T'as juste besoin de commencer.",
+  "Chaque séance est un dépôt sur un compte que personne ne peut te retirer.",
+  "Le pire moment, c'est avant. Après, t'es toujours content.",
+  "Personne ne regrette une séance faite. Beaucoup regrettent celle qu'ils ont sautée.",
+  "T'es pas obligée d'être rapide. Juste d'être là.",
+  "Ton futur toi te dit déjà merci.",
+  "Un pas après l'autre, un point après l'autre.",
+  "La motivation te lance. La discipline te fait finir.",
+  "Aujourd'hui c'est pas pour être parfaite, c'est pour être présente.",
+  "Ce que tu fais aujourd'hui te rendra plus forte demain.",
+  "Respire, avance, et fais-toi fière.",
 ];
 
 const DEFAULT_MOOD_BANK = [
@@ -502,7 +502,18 @@ function startDirectFlow() {
 }
 function chooseActiviteDirect(key) {
   state.directActivite = key;
-  setView("duration");
+  setView("choose-seance");
+}
+function selectDirectSeance(difficulte, seanceId) {
+  const seance = state.library[state.directActivite][difficulte].find((x) => x.id === seanceId);
+  const points = seance.points;
+  const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  state.session = {
+    activite: state.directActivite, difficulte, seance,
+    duration: { label: seance.duree + " min", minutes: seance.duree },
+    points, quote,
+  };
+  setView("result");
 }
 function answerMood(step, opt) {
   if (step === 1) { state.moodAnswers.q1 = opt; setView("mood2"); }
@@ -510,20 +521,13 @@ function answerMood(step, opt) {
 }
 function chooseDuration(key) {
   const dur = DURATIONS.find((d) => d.key === key);
-  let energie, activite, difficulte;
-  if (state.flowMode === "direct") {
-    activite = state.directActivite;
-    energie = 1;
-    difficulte = pickDifficulte(state.history, energie);
-  } else {
-    energie = ((state.moodAnswers.q1 && state.moodAnswers.q1.energie) || 0) + ((state.moodAnswers.q2 && state.moodAnswers.q2.energie) || 0);
-    difficulte = pickDifficulte(state.history, energie);
-    const favors = Array.from(new Set([
-      ...((state.moodAnswers.q1 && state.moodAnswers.q1.favors) || []),
-      ...((state.moodAnswers.q2 && state.moodAnswers.q2.favors) || []),
-    ]));
-    activite = favors.length > 0 ? pickActiviteFromFavors(favors, difficulte, state.history) : pickActivite();
-  }
+  const energie = ((state.moodAnswers.q1 && state.moodAnswers.q1.energie) || 0) + ((state.moodAnswers.q2 && state.moodAnswers.q2.energie) || 0);
+  const difficulte = pickDifficulte(state.history, energie);
+  const favors = Array.from(new Set([
+    ...((state.moodAnswers.q1 && state.moodAnswers.q1.favors) || []),
+    ...((state.moodAnswers.q2 && state.moodAnswers.q2.favors) || []),
+  ]));
+  const activite = favors.length > 0 ? pickActiviteFromFavors(favors, difficulte, state.history) : pickActivite();
   const seance = pickSeance(state.library, activite, difficulte, state.history);
   const points = seance ? calcPoints(seance, dur.minutes) : 0;
   const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
@@ -824,6 +828,41 @@ function renderMood(step) {
   </div>`;
 }
 
+function seanceDoneCount(seanceId) { return state.history.filter((h) => h.seanceId === seanceId).length; }
+
+function renderChooseSeance() {
+  const act = ACTS[state.directActivite];
+  return `
+  <div class="px pt">
+    <button class="icon-btn mb-4" data-act="nav" data-view="choose-activite">${EMO.back}</button>
+    <div class="row gap-2 mb-6">
+      <span style="font-size:1.4rem;">${act.icon}</span>
+      <h2 class="title-lg" style="margin-bottom:0;">${act.label}</h2>
+    </div>
+    ${DIFF_ORDER.map((diffKey) => {
+      const diff = DIFFS[diffKey];
+      const list = state.library[state.directActivite][diffKey];
+      return `
+      <div class="mb-6">
+        <span class="badge ${diff.cls}">${diff.label}</span>
+        <div class="col gap-2">
+          ${list.map((s) => {
+            const count = seanceDoneCount(s.id);
+            return `
+            <button class="card card-l border-diff ${diff.cls}" style="width:100%;text-align:left;display:flex;align-items:center;gap:.75rem;" data-act="select-direct-seance" data-diff="${diffKey}" data-id="${s.id}">
+              <div class="flex-1">
+                <div style="font-size:.9rem;font-weight:500;">${esc(s.titre)}</div>
+                <div style="font-size:.75rem;color:var(--muted3);">${s.duree} min · ${s.points} pts</div>
+              </div>
+              ${count > 0 ? `<span style="font-size:.7rem;font-weight:700;color:var(--emerald);white-space:nowrap;">✓ Déjà fait${count > 1 ? " " + count + "x" : ""}</span>` : `<span style="font-size:.7rem;color:var(--muted3);white-space:nowrap;">Nouveau</span>`}
+            </button>`;
+          }).join("")}
+        </div>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
 function renderChooseActivite() {
   return `
   <div class="px pt col" style="min-height:80vh;">
@@ -839,14 +878,12 @@ function renderChooseActivite() {
 }
 
 function renderDuration() {
-  const direct = state.flowMode === "direct";
   return `
   <div class="px pt col" style="min-height:80vh;">
     <div class="row gap-3 mb-8">
       <button class="icon-btn" data-act="duration-back">${EMO.back}</button>
-      ${direct ? "" : `<div class="step-dots"><div class="dot on"></div><div class="dot on"></div></div>`}
+      <div class="step-dots"><div class="dot on"></div><div class="dot on"></div></div>
     </div>
-    ${direct ? `<div style="font-size:.85rem;color:var(--muted3);margin-bottom:.3rem;">${ACTS[state.directActivite].icon} ${ACTS[state.directActivite].label}</div>` : ""}
     <h2 class="title-lg mb-8">T'as combien de temps devant toi ?</h2>
     <div class="grid2">
       ${DURATIONS.map((d) => `<button class="dur-card" data-act="duration-choose" data-key="${d.key}">${d.label}</button>`).join("")}
@@ -1169,6 +1206,7 @@ function render() {
     case "mood1": body = renderMood(1); break;
     case "mood2": body = renderMood(2); break;
     case "choose-activite": body = renderChooseActivite(); break;
+    case "choose-seance": body = renderChooseSeance(); break;
     case "duration": body = renderDuration(); break;
     case "result": body = renderResult(); break;
     case "perform": body = renderPerform(); break;
@@ -1195,6 +1233,7 @@ document.addEventListener("click", function (e) {
     case "start-flow": startFlow(); break;
     case "start-direct-flow": startDirectFlow(); break;
     case "choose-activite": chooseActiviteDirect(el.dataset.key); break;
+    case "select-direct-seance": selectDirectSeance(el.dataset.diff, el.dataset.id); break;
     case "open-lock": state.pinError = false; setView("pinlock"); break;
     case "open-import": state.importMsg = ""; setView("importconfig"); break;
     case "pin-submit": tryUnlockCoach(); break;
@@ -1205,7 +1244,7 @@ document.addEventListener("click", function (e) {
       break;
     }
     case "mood-back": setView("mood1"); break;
-    case "duration-back": setView(state.flowMode === "direct" ? "choose-activite" : "mood2"); break;
+    case "duration-back": setView("mood2"); break;
     case "duration-choose": chooseDuration(el.dataset.key); break;
     case "share-programme": shareProgramme(); break;
     case "go-perform": goPerform(); break;
