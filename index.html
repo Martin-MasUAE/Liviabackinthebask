@@ -481,7 +481,12 @@ function nextReward() {
   return [...state.rewards].sort((a, b) => a.seuil - b.seuil).find((r) => r.seuil > tp);
 }
 
-function setView(v) { state.view = v; render(); }
+function setView(v) {
+  commitSeanceDraft();
+  if (state.editingSeanceId) { state.editingSeanceId = null; state.seanceDraft = null; }
+  state.view = v;
+  render();
+}
 
 // ---------------------------------------------------------------------------
 // ACTIONS
@@ -600,7 +605,7 @@ function applyImport() {
 
 function toggleHistory(id) { state.expandedHistoryId = state.expandedHistoryId === id ? null : id; render(); }
 
-function setCoachTab(tab) { state.coachTab = tab; state.editingSeanceId = null; state.editingMoodQId = null; render(); }
+function setCoachTab(tab) { commitSeanceDraft(); state.coachTab = tab; state.editingSeanceId = null; state.editingMoodQId = null; state.seanceDraft = null; render(); }
 function setCoachActivite(a) { state.coachActivite = a; render(); }
 function setCoachDifficulte(d) { state.coachDifficulte = d; render(); }
 
@@ -614,10 +619,11 @@ function openSeanceEditor(id) {
   render();
 }
 function cancelSeanceEditor() { state.editingSeanceId = null; state.seanceDraft = null; render(); }
-function saveSeanceEditor() {
+function commitSeanceDraft() {
+  if (!state.editingSeanceId || !state.seanceDraft) return;
   document.querySelectorAll("[data-bind='draft']").forEach((el) => { state.seanceDraft[el.dataset.field] = el.value; });
   const d = state.seanceDraft;
-  if (!d.titre.trim()) return;
+  if (!d.titre || !d.titre.trim()) return;
   const etapes = d.etapesText.split("\n").map((l) => l.trim()).filter(Boolean);
   const entry = { titre: d.titre, duree: Number(d.duree), points: Number(d.points), etapes };
   const list = state.library[state.coachActivite][state.coachDifficulte];
@@ -625,9 +631,12 @@ function saveSeanceEditor() {
     list.push({ ...entry, id: uid() });
   } else {
     const idx = list.findIndex((x) => x.id === state.editingSeanceId);
-    list[idx] = { ...list[idx], ...entry };
+    if (idx >= 0) list[idx] = { ...list[idx], ...entry };
   }
   saveLocal("library", state.library);
+}
+function saveSeanceEditor() {
+  commitSeanceDraft();
   state.editingSeanceId = null; state.seanceDraft = null;
   render();
 }
