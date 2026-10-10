@@ -342,11 +342,34 @@ const PERF_FIELDS = {
     { key: "exercices", label: "Exercices & charges", type: "textarea", placeholder: "ex : Squat 40kg x10, Développé couché 30kg x8..." },
     { key: "series", label: "Nombre de séries total", type: "text", placeholder: "ex : 14" },
   ],
-  autre: [
-    { key: "resultat", label: "Résultat / ce que t'as fait", type: "text", placeholder: "ex : Victoire 6-4, ou séance complète" },
-    { key: "partenaire", label: "Avec qui ?", type: "text", placeholder: "ex : Solo, ou avec Marine" },
+  natation: [
+    { key: "distance", label: "Distance nagée", type: "text", placeholder: "ex : 1200 m" },
+    { key: "temps", label: "Temps total", type: "text", placeholder: "ex : 35 min" },
+    { key: "allure", label: "Ressenti sur l'effort", type: "select", options: ["Facile", "Correct", "Difficile"] },
+  ],
+  padel: [
+    { key: "resultat", label: "Résultat / score", type: "text", placeholder: "ex : Victoire 6-4 6-3" },
+    { key: "partenaire", label: "Avec qui ?", type: "text", placeholder: "ex : Marine et Tom" },
+  ],
+  pilates: [
+    { key: "intensite", label: "Intensité ressentie", type: "select", options: ["Douce", "Correcte", "Intense"] },
+    { key: "remarques", label: "Remarques / exercices marquants", type: "textarea", placeholder: "ex : gainage plus facile que la dernière fois" },
+  ],
+  ski: [
+    { key: "descentes", label: "Nombre de descentes", type: "text", placeholder: "ex : 12" },
+    { key: "pistes", label: "Types de pistes", type: "text", placeholder: "ex : bleues et rouges" },
+    { key: "conditions", label: "Conditions de neige / météo", type: "text", placeholder: "ex : poudreuse, grand soleil" },
+  ],
+  yoga: [
+    { key: "intensite", label: "Intensité ressentie", type: "select", options: ["Douce", "Correcte", "Intense"] },
+    { key: "remarques", label: "Remarques / postures marquantes", type: "textarea", placeholder: "ex : équilibre plus stable" },
   ],
 };
+const GENERIC_PERF_FIELDS = [
+  { key: "resultat", label: "Ce que t'as fait", type: "text", placeholder: "ex : séance complète" },
+  { key: "remarques", label: "Remarques", type: "textarea", placeholder: "ex : bonnes sensations" },
+];
+function getPerfFields(activite) { return PERF_FIELDS[activite] || GENERIC_PERF_FIELDS; }
 
 const RESSENTI_EMOJIS = ["😩", "😕", "🙂", "😄", "🔥"];
 
@@ -575,7 +598,7 @@ function submitPerformance() {
     ACTS[s.activite].label + " · " + s.seance.titre,
     "+" + s.points + " pts (total : " + (tpBefore + s.points) + " pts)", "",
     ...Object.entries(perf.fields).filter(([, v]) => v).map(([k, v]) => {
-      const field = PERF_FIELDS[s.activite].find((f) => f.key === k);
+      const field = getPerfFields(s.activite).find((f) => f.key === k);
       return (field ? field.label : k) + " : " + v;
     }),
     "Ressenti : " + (RESSENTI_EMOJIS[perf.ressenti - 1] || ""),
@@ -930,7 +953,7 @@ function renderResult() {
 
 function renderPerform() {
   const s = state.session; const d = state.performDraft;
-  const fields = PERF_FIELDS[s.activite];
+  const fields = getPerfFields(s.activite);
   return `
   <div class="px pt">
     <button class="icon-btn mb-6" data-act="nav" data-view="result">${EMO.back}</button>
