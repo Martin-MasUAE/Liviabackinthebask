@@ -137,6 +137,7 @@ const EMO = {
 // ---------------------------------------------------------------------------
 
 const ACTS = {
+  marathon: { label: "Prépa Marathon", icon: "🏁" },
   course: { label: "Course à pied", icon: "🏃" },
   muscu: { label: "Salle de muscu", icon: "🏋️" },
   padel: { label: "Padel", icon: "🎾" },
@@ -154,7 +155,43 @@ const DIFFS = {
 
 const DIFF_ORDER = ["detente", "sortie", "challenge"];
 
+// Prépa Marathon : séances classées par difficulté puis par effort croissant (durée / distance).
+// Les points sont fixes (non réduits selon la durée choisie dans le questionnaire mood).
+const MARATHON_LIBRARY = {
+  detente: [
+    { id: "m-de-1", titre: "Footing lent 20 min", duree: 20, points: 10, etapes: ["Allure : 6'27\"/km", "Distance : 3,1 km", "Durée : 20'00\"", "Très cool, on se fait plaisir"] },
+    { id: "m-de-2", titre: "Footing 40 min", duree: 40, points: 15, etapes: ["Allure : 5'55\"/km", "Distance : 6,76 km", "Durée : 40'00\""] },
+    { id: "m-de-3", titre: "45 min endurance", duree: 45, points: 15, etapes: ["Allure : 5'44\"/km", "Distance : 7,85 km", "Durée : 45'00\""] },
+    { id: "m-de-4", titre: "10 km endurance", duree: 57, points: 20, etapes: ["Allure : 5'44\"/km", "Distance : 10 km", "Durée : 57'21\""] },
+    { id: "m-de-5", titre: "12 km endurance", duree: 69, points: 25, etapes: ["Allure : 5'44\"/km", "Distance : 12 km", "Durée : 1h08'49\""] },
+    { id: "m-de-6", titre: "14 km endurance", duree: 80, points: 30, etapes: ["Allure : 5'44\"/km", "Distance : 14 km", "Durée : 1h20'17\""] },
+  ],
+  sortie: [
+    { id: "m-so-1", titre: "10 x (30\"/30\")", duree: 45, points: 35, etapes: ["Échauffement progressif", "10 x (30\" rapide / 30\" récup trottinée)", "Retour au calme", "Allure moyenne : 5'47\"/km", "Distance : 7,78 km", "Durée : 45'00\""] },
+    { id: "m-so-2", titre: "7 x 400 m (R=200 m)", duree: 50, points: 35, etapes: ["Échauffement progressif", "7 x 400 m rapide, récup 200 m trottinée", "Retour au calme", "Allure moyenne : 5'33\"/km", "Distance : 8,98 km", "Durée : 49'52\""] },
+    { id: "m-so-3", titre: "5 x 600 m (R=200 m)", duree: 54, points: 40, etapes: ["Échauffement progressif", "5 x 600 m rapide, récup 200 m trottinée", "Retour au calme", "Allure moyenne : 5'36\"/km", "Distance : 9,59 km", "Durée : 53'48\""] },
+    { id: "m-so-4", titre: "Test VMA", duree: 46, points: 40, etapes: ["Échauffement progressif", "Test VMA : tout donner, effort maximal soutenu", "Retour au calme", "Allure moyenne : 5'33\"/km", "Distance : 8,27 km", "Durée : 46'00\""] },
+    { id: "m-so-5", titre: "3000 m allure course", duree: 55, points: 45, etapes: ["Échauffement progressif", "3000 m à l'allure marathon", "Retour au calme", "Allure : 5'50\"/km", "Distance : 9,39 km", "Durée : 54'54\""] },
+    { id: "m-so-6", titre: "4 x 6' tempo", duree: 67, points: 50, etapes: ["Échauffement progressif", "4 x 6' à allure tempo, récup entre les blocs", "Retour au calme", "Allure moyenne : 5'24\"/km", "Distance : 12,41 km", "Durée : 1h07'00\""] },
+    { id: "m-so-7", titre: "17 km endurance", duree: 100, points: 55, etapes: ["Allure : 5'54\"/km", "Distance : 17 km", "Durée : 1h40'23\""] },
+    { id: "m-so-8", titre: "2 x 4000 m à l'allure cible", duree: 78, points: 60, etapes: ["Échauffement progressif", "2 x 4000 m à l'allure cible, récup entre les blocs", "Retour au calme", "Allure moyenne : 5'39\"/km", "Distance : 13,78 km", "Durée : 1h18'03\""] },
+  ],
+  challenge: [
+    { id: "m-ch-1", titre: "18 km endurance", duree: 107, points: 65, etapes: ["Allure : 5'55\"/km", "Distance : 18 km", "Durée : 1h46'35\""] },
+    { id: "m-ch-2", titre: "10 km allure course", duree: 87, points: 70, etapes: ["Échauffement progressif", "10 km à l'allure course", "Retour au calme", "Allure moyenne : 5'34\"/km", "Distance : 15,59 km", "Durée : 1h27'00\""] },
+    { id: "m-ch-3", titre: "21 km endurance", duree: 125, points: 80, etapes: ["Allure : 5'57\"/km", "Distance : 21 km", "Durée : 2h05'09\""] },
+    { id: "m-ch-4", titre: "3 x 6000 m à 77 % VMA", duree: 139, points: 90, etapes: ["Échauffement progressif", "3 x 6000 m à 77 % de la VMA, récup entre les blocs", "Retour au calme", "Allure moyenne : 5'25\"/km", "Distance : 25,78 km", "Durée : 2h19'51\""] },
+    { id: "m-ch-5", titre: "21 km progressifs", duree: 130, points: 95, etapes: ["Départ tranquille, on accélère petit à petit", "Allure moyenne : 5'21\"/km", "Distance : 24,16 km", "Durée : 2h09'35\""] },
+    { id: "m-ch-6", titre: "24 km endurance", duree: 142, points: 100, etapes: ["Allure : 5'56\"/km", "Distance : 24 km", "Durée : 2h22'31\""] },
+    { id: "m-ch-7", titre: "25 km endurance", duree: 149, points: 105, etapes: ["Allure : 5'56\"/km", "Distance : 25 km", "Durée : 2h28'42\""] },
+    { id: "m-ch-8", titre: "28 km endurance", duree: 166, points: 115, etapes: ["Allure : 5'55\"/km", "Distance : 28 km", "Durée : 2h46'03\""] },
+    { id: "m-ch-9", titre: "31 km endurance", duree: 185, points: 130, etapes: ["Allure : 5'57\"/km", "Distance : 31 km", "Durée : 3h04'38\""] },
+    { id: "m-ch-10", titre: "Dubaï Marathon — Jour J", duree: 210, points: 200, etapes: ["Allure cible : 4'58\"/km", "Distance : 42,2 km", "Durée visée : 3h30'", "Le grand jour, tu l'as mérité 🏁"] },
+  ],
+};
+
 const DEFAULT_LIBRARY = {
+  marathon: MARATHON_LIBRARY,
   course: {
     detente: [
       { id: "c-de-1", titre: "Footing cocooning", duree: 25, points: 10, etapes: ["Échauffement marche rapide — 5 min", "Footing très léger allure conversation — 15 min", "Retour au calme + étirements — 5 min"] },
@@ -333,6 +370,12 @@ const DURATIONS = [
 ];
 
 const PERF_FIELDS = {
+  marathon: [
+    { key: "distance", label: "Distance parcourue", type: "text", placeholder: "ex : 14,2 km" },
+    { key: "temps", label: "Temps total", type: "text", placeholder: "ex : 1h20'" },
+    { key: "allure", label: "Allure moyenne", type: "text", placeholder: "ex : 5'44\"/km" },
+    { key: "ressenti", label: "Ressenti sur l'effort", type: "select", options: ["Facile", "Correct", "Difficile"] },
+  ],
   course: [
     { key: "distance", label: "Distance parcourue", type: "text", placeholder: "ex : 5,2 km" },
     { key: "temps", label: "Temps total", type: "text", placeholder: "ex : 28 min" },
@@ -438,6 +481,19 @@ function pickRandomQuestions(bank, n) {
   return picked;
 }
 
+// Complète une bibliothèque déjà sauvegardée avec les activités/difficultés manquantes
+// (ex : Prépa Marathon) sans toucher aux séances existantes.
+function ensureLibrary(lib) {
+  const out = lib && typeof lib === "object" ? lib : {};
+  Object.keys(DEFAULT_LIBRARY).forEach((act) => {
+    if (!out[act]) out[act] = JSON.parse(JSON.stringify(DEFAULT_LIBRARY[act]));
+  });
+  Object.keys(out).forEach((act) => {
+    DIFF_ORDER.forEach((d) => { if (!Array.isArray(out[act][d])) out[act][d] = []; });
+  });
+  return out;
+}
+
 function loadLocal(key, fallback) {
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
 }
@@ -465,7 +521,7 @@ function decodeConfig(str) {
 
 const state = {
   view: "home",
-  library: loadLocal("library", DEFAULT_LIBRARY),
+  library: ensureLibrary(loadLocal("library", DEFAULT_LIBRARY)),
   rewards: loadLocal("rewards", DEFAULT_REWARDS),
   moodBank: loadLocal("moodQuestions", DEFAULT_MOOD_BANK),
   coachPin: loadLocal("coachPin", DEFAULT_COACH_PIN),
@@ -557,7 +613,7 @@ function chooseDuration(key) {
   ]));
   const activite = favors.length > 0 ? pickActiviteFromFavors(favors, difficulte, state.history) : pickActivite();
   const seance = pickSeance(state.library, activite, difficulte, state.history);
-  const points = seance ? calcPoints(seance, dur.minutes) : 0;
+  const points = seance ? (activite === "marathon" ? seance.points : calcPoints(seance, dur.minutes)) : 0;
   const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
   state.session = { activite, difficulte, seance, duration: dur, points, quote };
   setView("result");
@@ -618,7 +674,7 @@ function applyImport() {
   const text = document.getElementById("import-textarea").value;
   try {
     const cfg = decodeConfig(text);
-    if (cfg.library) { state.library = cfg.library; saveLocal("library", state.library); }
+    if (cfg.library) { state.library = ensureLibrary(cfg.library); saveLocal("library", state.library); }
     if (cfg.rewards) { state.rewards = cfg.rewards; saveLocal("rewards", state.rewards); }
     if (cfg.moodBank) { state.moodBank = cfg.moodBank; saveLocal("moodQuestions", state.moodBank); }
     state.importMsg = "ok";
@@ -926,12 +982,13 @@ function renderDuration() {
 function renderResult() {
   const s = state.session;
   if (!s.seance) {
-    return `<div class="px pt"><p class="empty-note">Aucune séance disponible pour cette combinaison. Ajoute des séances dans l'onglet Coach.</p>
+    return `<div class="px pt"><button class="icon-btn mb-4" data-act="result-back">${EMO.back}</button><p class="empty-note">Aucune séance disponible pour cette combinaison. Ajoute des séances dans l'onglet Coach.</p>
     <button class="icon-btn" style="color:var(--orange-l);margin-top:1rem;" data-act="nav" data-view="home">Retour à l'accueil</button></div>`;
   }
   const act = ACTS[s.activite]; const diff = DIFFS[s.difficulte];
   return `
   <div class="px pt">
+    <button class="icon-btn mb-4" data-act="result-back">${EMO.back}</button>
     <div class="row gap-2 mb-4"><span>${act.icon}</span><span style="font-size:.9rem;color:var(--muted3);">${act.label}</span></div>
     <span class="badge ${diff.cls}">${diff.label}</span>
     <h2 class="title-lg">${esc(s.seance.titre)}</h2>
@@ -1047,7 +1104,7 @@ function renderRewards() {
   </div>`;
 }
 
-const FAVOR_LABELS = { course: "Course", muscu: "Muscu", padel: "Padel", pilates: "Pilates", natation: "Natation", ski: "Ski", yoga: "Yoga" };
+const FAVOR_LABELS = { marathon: "Prépa Marathon", course: "Course", muscu: "Muscu", padel: "Padel", pilates: "Pilates", natation: "Natation", ski: "Ski", yoga: "Yoga" };
 
 function renderCoach() {
   const tabs = [["seances", "Séances"], ["mood", "Questions mood"], ["rewards", "Récompenses"], ["reglages", "Réglages"]];
@@ -1277,6 +1334,7 @@ document.addEventListener("click", function (e) {
     }
     case "mood-back": setView("mood1"); break;
     case "duration-back": setView("mood2"); break;
+    case "result-back": setView(state.flowMode === "direct" ? "choose-seance" : "duration"); break;
     case "duration-choose": chooseDuration(el.dataset.key); break;
     case "share-programme": shareProgramme(); break;
     case "go-perform": goPerform(); break;
