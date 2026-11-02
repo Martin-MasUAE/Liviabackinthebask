@@ -108,6 +108,19 @@
   .nav-item.active{color:var(--orange-l);}
   .nav-item span.lbl{font-size:.68rem;}
 
+  .unlock-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;padding:1.2rem;overflow:hidden;animation:unlockFade .3s ease-out;}
+  .unlock-card{position:relative;width:100%;max-width:380px;text-align:center;background:linear-gradient(160deg,#2a1608,#120a05);border:2px solid var(--orange-l);border-radius:1.5rem;padding:1.8rem 1.4rem 1.4rem;box-shadow:0 0 60px rgba(249,115,22,.45);animation:unlockPop .55s cubic-bezier(.2,1.4,.4,1);}
+  .unlock-emoji{font-size:4rem;animation:unlockBounce 1.2s ease-in-out infinite;}
+  .unlock-tag{color:var(--orange-l);font-weight:800;letter-spacing:.12em;font-size:.8rem;margin-top:.4rem;}
+  .unlock-title{font-size:1.7rem;font-weight:800;margin:.3rem 0 1rem;}
+  .unlock-reward{background:rgba(251,191,36,.12);border:1px solid var(--amber);color:var(--amber);border-radius:1rem;padding:.9rem;font-weight:700;font-size:1.05rem;margin-bottom:.6rem;}
+  .unlock-next{font-size:.9rem;color:var(--muted);margin:1rem 0 1.2rem;line-height:1.4;}
+  .unlock-next b{color:var(--text);}
+  .confetti{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;opacity:.9;animation:confettiFall linear infinite;}
+  @keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);}}
+  @keyframes unlockPop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+  @keyframes unlockFade{from{opacity:0;}to{opacity:1;}}
+  @keyframes unlockBounce{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-8px) scale(1.1);}}
   .quote{font-style:italic;color:var(--muted2);border-left:2px solid var(--orange);padding-left:.8rem;margin:0 0 1.5rem;}
 
   .coach-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;overflow-x:auto;padding-bottom:2px;}
@@ -309,18 +322,18 @@ const DEFAULT_REWARDS = [
 const DEFAULT_COACH_PIN = "0000";
 
 const QUOTES = [
-  "Le canapé sera toujours là. Cette version de toi qui y va, un peu moins souvent.",
-  "T'as pas besoin d'avoir envie. T'as juste besoin de commencer.",
-  "Chaque séance est un dépôt sur un compte que personne ne peut te retirer.",
-  "Le pire moment, c'est avant. Après, t'es toujours content.",
-  "Personne ne regrette une séance faite. Beaucoup regrettent celle qu'ils ont sautée.",
-  "T'es pas obligée d'être rapide. Juste d'être là.",
-  "Ton futur toi te dit déjà merci.",
-  "Un pas après l'autre, un point après l'autre.",
-  "La motivation te lance. La discipline te fait finir.",
-  "Aujourd'hui c'est pas pour être parfaite, c'est pour être présente.",
-  "Ce que tu fais aujourd'hui te rendra plus forte demain.",
-  "Respire, avance, et fais-toi fière.",
+  "T'es la meilleure je crois en toi",
+  "C'est que quelques minutes dans la journée pour te sentir au max",
+  "De jour en jour tu t'améliores",
+  "Le pire moment, c'est avant. Après, t'es toujours contente",
+  "J'aime ta motivation ! Je suis à fond derrière toi",
+  "T'es un exemple à suivre",
+  "Imagine tu va te voir comme moi je te vois: exceptionnelle",
+  "Ne lâche rien, tant que je suis là tu pourras pas",
+  "Tu vas être monstrueuse sur cette séance",
+  "J'espère que tu vas être fière de toi",
+  "Pas de repos pour les héros comme toi",
+  "C'est qu'un mauvais moment, après tu seras contente",
 ];
 
 const DEFAULT_MOOD_BANK = [
@@ -521,6 +534,7 @@ function decodeConfig(str) {
 
 const state = {
   view: "home",
+  pendingUnlocks: loadLocal("pendingUnlocks", []),
   library: ensureLibrary(loadLocal("library", DEFAULT_LIBRARY)),
   rewards: loadLocal("rewards", DEFAULT_REWARDS),
   moodBank: loadLocal("moodQuestions", DEFAULT_MOOD_BANK),
@@ -648,6 +662,9 @@ function submitPerformance() {
   const tpBefore = totalPoints();
   state.history.push(entry);
   saveLocal("history", state.history);
+  const tpAfter = tpBefore + s.points;
+  const newlyUnlocked = state.rewards.filter((r) => r.seuil > tpBefore && r.seuil <= tpAfter).sort((a, b) => a.seuil - b.seuil).map((r) => r.id);
+  if (newlyUnlocked.length) { state.pendingUnlocks = newlyUnlocked; saveLocal("pendingUnlocks", state.pendingUnlocks); }
 
   const lines = [
     "✅ Séance faite — Livia back dans les bask", "",
@@ -833,10 +850,36 @@ function bottomNavHTML() {
     </button>`).join("")}</div></div>`;
 }
 
+function renderUnlockModal() {
+  const rewards = (state.pendingUnlocks || []).map((id) => state.rewards.find((r) => r.id === id)).filter(Boolean);
+  if (!rewards.length) return "";
+  const tp = totalPoints(); const nr = nextReward();
+  const colors = ["#f97316", "#fbbf24", "#34d399", "#60a5fa", "#f472b6", "#ffffff"];
+  const confetti = Array.from({ length: 28 }, (_, i) =>
+    `<i class="confetti" style="left:${(i * 37) % 100}%;background:${colors[i % colors.length]};animation-delay:${((i * 0.13) % 1.6).toFixed(2)}s;animation-duration:${(2.4 + (i % 5) * 0.4).toFixed(1)}s;"></i>`).join("");
+  const teaser = nr
+    ? `<div class="unlock-next">Et c'est pas fini : encore <b>${nr.seuil - tp} pts</b> avant « ${esc(nr.indice)} ». T'es lancée, ce serait dommage de t'arrêter là 🔥</div>`
+    : `<div class="unlock-next">Tu as tout débloqué. Légendaire. Mais on ne s'arrête pas là 👑</div>`;
+  return `
+  <div class="unlock-overlay">
+    ${confetti}
+    <div class="unlock-card">
+      <div class="unlock-emoji">🏆</div>
+      <div class="unlock-tag">${rewards.length > 1 ? "RÉCOMPENSES DÉBLOQUÉES" : "RÉCOMPENSE DÉBLOQUÉE"}</div>
+      <div class="unlock-title">Tu l'as méritée.</div>
+      ${rewards.map((r) => `<div class="unlock-reward">🎁 ${esc(r.titre)}</div>`).join("")}
+      ${teaser}
+      <button class="btn btn-primary" data-act="close-unlock">Je vais encore plus loin 🔥</button>
+      <button class="btn btn-ghost" data-act="unlock-see-rewards" style="margin-top:.4rem;">Voir mes récompenses</button>
+    </div>
+  </div>`;
+}
+
 function renderHome() {
   const tp = totalPoints(); const ts = totalSeances(); const nr = nextReward();
   const last3 = [...state.history].slice(-3).reverse();
   return `
+  ${renderUnlockModal()}
   <div class="px pt">
     <div class="row between mb-6" style="align-items:flex-start;">
       <div>
@@ -1334,6 +1377,8 @@ document.addEventListener("click", function (e) {
     }
     case "mood-back": setView("mood1"); break;
     case "duration-back": setView("mood2"); break;
+    case "close-unlock": state.pendingUnlocks = []; saveLocal("pendingUnlocks", []); render(); break;
+    case "unlock-see-rewards": state.pendingUnlocks = []; saveLocal("pendingUnlocks", []); setView("rewards"); break;
     case "result-back": setView(state.flowMode === "direct" ? "choose-seance" : "duration"); break;
     case "duration-choose": chooseDuration(el.dataset.key); break;
     case "share-programme": shareProgramme(); break;
